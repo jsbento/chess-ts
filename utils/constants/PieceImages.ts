@@ -1,12 +1,28 @@
-export const bKing = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_kdt45.svg";
-export const wKing = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_klt45.svg";
-export const bQueen = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_qdt45.svg";
-export const wQueen = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_qlt45.svg";
-export const bRook = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_rdt45.svg";
-export const wRook = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_rlt45.svg";
-export const bBishop = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_bdt45.svg";
-export const wBishop = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_blt45.svg";
-export const bKnight = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_ndt45.svg";
-export const wKnight = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_nlt45.svg";
-export const bPawn = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_pdt45.svg";
-export const wPawn = "https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces#/media/File:Chess_plt45.svg";
+import { PieceMapType } from "../../types/chess/Piece";
+
+export const PieceImageMap: PieceMapType = {
+    "k": {
+        "w": "/Chess_klt45.svg",
+        "b": "/Chess_kdt45.svg"
+    },
+    "q": {
+        "w": "/Chess_qlt45.svg",
+        "b": "/Chess_qdt45.svg"
+    },
+    "r": {
+        "w": "/Chess_rlt45.svg",
+        "b": "/Chess_rdt45.svg"
+    },
+    "b": {
+        "w": "/Chess_blt45.svg",
+        "b": "/Chess_bdt45.svg"
+    },
+    "n": {
+        "w": "/Chess_nlt45.svg",
+        "b": "/Chess_ndt45.svg"
+    },
+    "p": {
+        "w": "/Chess_plt45.svg",
+        "b": "/Chess_pdt45.svg"
+    },
+}

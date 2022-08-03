@@ -1,3 +1,5 @@
-export type BoardProps = {
-    fen: string;
-}
+// export type BoardProps = {
+//     fen: string;
+// }
+
+export {};

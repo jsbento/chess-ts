@@ -19,12 +19,14 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+.grid-rows-8 {
+  grid-template-rows: repeat(8, minmax(0, 1fr));
+}
+
+.bg-brown-light {
+  background-color: #efebe9;
+}
+
+.bg-brown {
+  background-color: #8d6e63;
 }
