@@ -1,28 +1,16 @@
 import { PieceMapType } from "../../types/chess/Piece";
 
 export const PieceImageMap: PieceMapType = {
-    "k": {
-        "w": "/Chess_klt45.svg",
-        "b": "/Chess_kdt45.svg"
-    },
-    "q": {
-        "w": "/Chess_qlt45.svg",
-        "b": "/Chess_qdt45.svg"
-    },
-    "r": {
-        "w": "/Chess_rlt45.svg",
-        "b": "/Chess_rdt45.svg"
-    },
-    "b": {
-        "w": "/Chess_blt45.svg",
-        "b": "/Chess_bdt45.svg"
-    },
-    "n": {
-        "w": "/Chess_nlt45.svg",
-        "b": "/Chess_ndt45.svg"
-    },
-    "p": {
-        "w": "/Chess_plt45.svg",
-        "b": "/Chess_pdt45.svg"
-    },
+    "K": "/Chess_klt45.svg",
+    "Q": "/Chess_qlt45.svg",
+    "R": "/Chess_rlt45.svg",
+    "B": "/Chess_blt45.svg",
+    "N": "/Chess_nlt45.svg",
+    "P": "/Chess_plt45.svg",
+    "k": "/Chess_kdt45.svg",
+    "q": "/Chess_qdt45.svg",
+    "r": "/Chess_rdt45.svg",
+    "b": "/Chess_bdt45.svg",
+    "n": "/Chess_ndt45.svg",
+    "p": "/Chess_pdt45.svg"
 }

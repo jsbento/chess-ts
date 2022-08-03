@@ -1,5 +1,4 @@
 export type Piece = {
-    color: string;
     type: string;
 }
 
@@ -10,7 +9,5 @@ export type Square = {
 }
 
 export type PieceMapType = {
-    [key: string]: {
-        [key: string]: string;
-    }
+    [key: string]: string;
 }
