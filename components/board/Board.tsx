@@ -11,7 +11,6 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
 
     const updateBoard = () => {
         const board = chess.board();
-        console.log( board )
         const cBoard: string[] = [];
         for (let rank = 0; rank < RANK_FILE_MAX; rank++) {
             for (let file = 0; file < RANK_FILE_MAX; file++) {
@@ -30,9 +29,7 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
         setCharBoard(cBoard);
     }
 
-    useEffect(() => {
-        updateBoard();
-    }, [fenStr])
+    useEffect(() => updateBoard(), [fenStr])
     
     const renderBoard = () => {
         return (
