@@ -44,7 +44,7 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
     
     const renderBoard = () => {
         return (
-            <div className="w-[600px] h-[600px] grid grid-cols-8 grid-rows-8 shadow-2xl m-10">
+            <div className="w-[600px] h-[600px] grid grid-cols-8 grid-rows-8">
                 {charBoard.map((piece, index) => {
                     const rank = Math.floor(index / 8);
                     const file = index % 8;
@@ -61,7 +61,32 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            {renderBoard()}
+            <div className="chess-board p-10 items-start justify-items-start">
+                <div className="box-1 w-[50px] h-[600px] flex flex-col items-center justify-between">
+                    <p>8</p>
+                    <p>7</p>
+                    <p>6</p>
+                    <p>5</p>
+                    <p>4</p>
+                    <p>3</p>
+                    <p>2</p>
+                    <p>1</p>
+                </div>
+                <div className="box-2 items-center justify-center">
+                    {renderBoard()}
+                </div>
+                <div className="box-3 w-[50px] h-[50px]"></div>
+                <div className="box-4 w-[600px] h-[50px] flex flex-row items-center justify-between">
+                    <p>a</p>
+                    <p>b</p>
+                    <p>c</p>
+                    <p>d</p>
+                    <p>e</p>
+                    <p>f</p>
+                    <p>g</p>
+                    <p>h</p>
+                </div>
+            </div>
         </DndProvider>
     );
 }
