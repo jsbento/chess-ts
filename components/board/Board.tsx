@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Chess } from "chess.js";
-import Piece from "./Piece";
+import { ShortMove } from "chess.js";
 import { BoardProps } from "../../types/chess/Board";
-import { RANK_FILE_MAX } from "../../utils/constants/Chess";
+import { chess, RANK_FILE_MAX } from "../../utils/constants/Chess";
+import { indexToSquare } from "../../utils/pieces/PieceUtils";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import BoardSquare from "./BoardSquare";
 
 const Board: React.FC<BoardProps> = ({ fen }) => {
-    const chess = new Chess(fen);
     const [fenStr, setFEN] = useState(fen);
     const [charBoard, setCharBoard] = useState<string[]>([]);
 
+    const handleMove = (from: number, to: number) => {
+        const move: ShortMove = {from: indexToSquare(from), to: indexToSquare(to)} as ShortMove;
+        if (chess.move(move)) {
+            setFEN(chess.fen());
+        }
+    }
+
     const updateBoard = () => {
+        if (chess.in_stalemate() || chess.game_over())
+            chess.reset();
         const board = chess.board();
         const cBoard: string[] = [];
         for (let rank = 0; rank < RANK_FILE_MAX; rank++) {
@@ -38,19 +49,21 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
                     const rank = Math.floor(index / 8);
                     const file = index % 8;
                     const bgColor = (rank + file) % 2 === 0 ? "bg-brown-light" : "bg-brown";
+                    const p = piece === " " ? null : {type: piece, position: index};
+                    
                     return (
-                        <div key={index}
-                            className={`items-center justify-center ${bgColor}`}
-                        >
-                            {piece !== " " && <Piece type={piece} />}
-                        </div>
-                    )
+                        <BoardSquare color={bgColor} piece={p} position={index} handleMove={handleMove} />
+                    );
                 })}
             </div>
         );
     }
 
-    return renderBoard();
+    return (
+        <DndProvider backend={HTML5Backend}>
+            {renderBoard()}
+        </DndProvider>
+    );
 }
 
 export default Board;

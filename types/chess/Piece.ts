@@ -1,5 +1,6 @@
 export type Piece = {
     type: string;
+    position: number;
 }
 
 export type Square = {
