@@ -19,7 +19,7 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
     }
 
     const updateBoard = () => {
-        if (chess.in_stalemate() || chess.game_over())
+        if (chess.in_stalemate() || chess.game_over() || chess.insufficient_material() || chess.in_threefold_repetition() || chess.in_draw())
             chess.reset();
         const board = chess.board();
         const cBoard: string[] = [];
@@ -50,7 +50,7 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
                     const file = index % 8;
                     const bgColor = (rank + file) % 2 === 0 ? "bg-brown-light" : "bg-brown";
                     const p = piece === " " ? null : {type: piece, position: index};
-                    
+
                     return (
                         <BoardSquare color={bgColor} piece={p} position={index} handleMove={handleMove} />
                     );
