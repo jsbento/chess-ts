@@ -4,5 +4,12 @@ export type BoardSquareProps = {
     color: string;
     piece: Piece | null;
     position: number;
-    handleMove: (from: number, to: number) => void;
+}
+
+export type PromotionProps = {
+    promotion: {
+        from: string;
+        to: string;
+        color: string;
+    }
 }

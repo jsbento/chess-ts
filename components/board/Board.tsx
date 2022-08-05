@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { ShortMove } from "chess.js";
 import { BoardProps } from "../../types/chess/Board";
 import { chess, RANK_FILE_MAX } from "../../utils/constants/Chess";
-import { indexToSquare } from "../../utils/pieces/PieceUtils";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BoardSquare from "./BoardSquare";
@@ -10,13 +8,6 @@ import BoardSquare from "./BoardSquare";
 const Board: React.FC<BoardProps> = ({ fen }) => {
     const [fenStr, setFEN] = useState(fen);
     const [charBoard, setCharBoard] = useState<string[]>([]);
-
-    const handleMove = (from: number, to: number) => {
-        const move: ShortMove = {from: indexToSquare(from), to: indexToSquare(to)} as ShortMove;
-        if (chess.move(move)) {
-            setFEN(chess.fen());
-        }
-    }
 
     const updateBoard = () => {
         if (chess.in_stalemate() || chess.game_over() || chess.insufficient_material() || chess.in_threefold_repetition() || chess.in_draw())
@@ -40,7 +31,7 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
         setCharBoard(cBoard);
     }
 
-    useEffect(() => updateBoard(), [fenStr])
+    useEffect(() => updateBoard());
     
     const renderBoard = () => {
         return (
@@ -52,7 +43,7 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
                     const p = piece === " " ? null : {type: piece, position: index};
 
                     return (
-                        <BoardSquare color={bgColor} piece={p} position={index} handleMove={handleMove} />
+                        <BoardSquare color={bgColor} piece={p} position={index} />
                     );
                 })}
             </div>
