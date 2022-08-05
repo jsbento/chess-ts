@@ -2,7 +2,7 @@ import { Chess, ShortMove } from "chess.js";
 import { BehaviorSubject } from "rxjs";
 import { GameState } from "../../types/chess/GameState";
 
-export const DEFAULT_FEN = "4k3/P7/8/8/8/8/8/RNBQKBNR w KQkq - 0 1";
+export const DEFAULT_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 export const RANK_FILE_MAX = 8;
 
 export const chess = new Chess(DEFAULT_FEN);
