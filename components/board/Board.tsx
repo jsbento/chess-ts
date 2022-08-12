@@ -5,10 +5,15 @@ import { RANKS, FILES } from "../../utils/constants/Board";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import BoardSquare from "./BoardSquare";
+import { useSelector } from "react-redux";
+import { GameState } from "../../types/chess/GameState";
 
 const Board: React.FC<BoardProps> = ({ fen }) => {
     const [fenStr, setFEN] = useState(fen);
     const [charBoard, setCharBoard] = useState<string[]>([]);
+
+    const board = useSelector((state: GameState) => state.board);
+    console.log(board);
 
     const updateBoard = () => {
         if (chess.in_stalemate() || chess.game_over() || chess.insufficient_material() || chess.in_threefold_repetition() || chess.in_draw())
@@ -32,7 +37,7 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
         setCharBoard(cBoard);
     }
 
-    useEffect(() => updateBoard());
+    useEffect(() => updateBoard(), [board]);
     
     const renderBoard = () => {
         return (

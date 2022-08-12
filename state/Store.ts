@@ -1,16 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
-import boardReducer from './slices/Board';
-import gameStatusReducer from './slices/GameStatus';
-import promotionReducer from './slices/Promotion';
-import turnReducer from './slices/Turn';
-import resultReducer from './slices/Result';
+import { applyMiddleware, configureStore, Store } from '@reduxjs/toolkit';
+import { GameState } from '../types/chess/GameState';
+import { Action } from './actions/ActionTypes';
+import chessReducer from './reducers/Reducers';
 
-export const store = configureStore({
-    reducer: {
-        board: boardReducer,
-        gameStatus: gameStatusReducer,
-        promotion: promotionReducer,
-        turn: turnReducer,
-        result: resultReducer,
-    },
+export const store: Store<GameState, Action> & {
+    dispatch: (action: Action) => Action;
+} = configureStore({
+    reducer: chessReducer,
 });
