@@ -64,28 +64,3 @@ export const getResult = () => {
         return "The chess gods demand it...";
     }
 }
-
-export const handleMove = (from: string, to: string) => {
-    const promotions = chess.moves({ verbose: true }).filter(move => move.promotion);
-    if (promotions.some(p => `${p.from}:${p.to}` === `${from}:${to}`)) {
-        const promotion = { from, to, color: promotions[0].color};
-        updateGame(promotion);
-    }
-
-    const { promotion } = gameState.getValue();
-    if (!promotion) move(from, to, undefined);
-}
-
-export const move = (from: string, to: string, promotion: undefined | "b" | "n" | "q" | "r") => {
-    let move = { from, to } as ShortMove;
-    if (promotion) {
-        move.promotion = promotion;
-    }
-
-    console.log( move );
-    const legalMove = chess.move(move);
-    console.log( legalMove );
-    if (legalMove) {
-        updateGame(null);
-    }
-}

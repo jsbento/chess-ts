@@ -1,24 +1,63 @@
-import React, { useState, useEffect } from "react";
-import { BoardProps } from "../../types/chess/Board";
-import { chess, RANK_FILE_MAX } from "../../utils/constants/Chess";
+import React, { useState, useEffect, useCallback } from "react";
+import * as BoardTypes from "../../types/chess/Board";
+import { chess, gameState, getResult, RANK_FILE_MAX } from "../../utils/constants/Chess";
 import { RANKS, FILES } from "../../utils/constants/Board";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import BoardSquare from "./BoardSquare";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { GameState } from "../../types/chess/GameState";
+import * as Actions from "../../state/actions/Actions";
+import BoardSquare from "./BoardSquare";
+import { initialState } from "../../state/reducers/Reducers";
+import { ShortMove } from "chess.js";
 
-const Board: React.FC<BoardProps> = ({ fen }) => {
+const Board: React.FC<BoardTypes.BoardProps> = ({ fen }) => {
     const [fenStr, setFEN] = useState(fen);
     const [charBoard, setCharBoard] = useState<string[]>([]);
 
-    const board = useSelector((state: GameState) => state.board);
-    console.log(board);
+    const dispatch = useDispatch();
+    const { board, promotion, result } = useSelector((state: GameState) => state);
+
+    // const _updateBoard = useCallback((board: (BoardTypes.BoardSquare | null)[][]) => dispatch(Actions.setBoard(board)), [dispatch]);
+    // const _updateResult = useCallback((result: string) => dispatch(Actions.setResult(result)), [dispatch]);
+    // const _updateTurn = useCallback((turn: string) => dispatch(Actions.setTurn(turn)), [dispatch]);
+    // const _updateGameStatus = useCallback((gameStatus: boolean) => dispatch(Actions.setGameStatus(gameStatus)), [dispatch]);
+    const _updatePromotion = useCallback((promotion: {from: string, to: string, color: string} | null) => dispatch(Actions.setPromotion(promotion)), [dispatch]);
+    const _setStore = useCallback((newState: GameState) => dispatch(Actions.reset(newState)), [dispatch]);
+
+    const handleMove = (from: string, to: string) => {
+        const promotions = chess.moves({ verbose: true }).filter(move => move.promotion);
+        if (promotions.some(p => `${p.from}:${p.to}` === `${from}:${to}`)) {
+            _updatePromotion({ from, to, color: promotions[0].color });
+        }
+
+        if (!promotion) move(from, to, undefined);
+    }
+
+    const move = (from: string, to: string, promoteTo: undefined | "b" | "n" | "r" | "q") => {
+        let move = { from, to } as ShortMove;
+
+        if (promotion) move.promotion = promoteTo;
+
+        const legalMove = chess.move(move);
+        if (legalMove) {
+            const gameStatus = chess.game_over();
+            const update: GameState = {
+                board: chess.board(),
+                turn: chess.turn(),
+                gameStatus,
+                result: gameStatus ? getResult() : null,
+                promotion: promotion
+            }
+            _setStore(update);
+        }
+    }
 
     const updateBoard = () => {
-        if (chess.in_stalemate() || chess.game_over() || chess.insufficient_material() || chess.in_threefold_repetition() || chess.in_draw())
+        if (result !== null) {
             chess.reset();
-        const board = chess.board();
+            _setStore(initialState);
+        }
         const cBoard: string[] = [];
         for (let rank = 0; rank < RANK_FILE_MAX; rank++) {
             for (let file = 0; file < RANK_FILE_MAX; file++) {
@@ -38,7 +77,7 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
     }
 
     useEffect(() => updateBoard(), [board]);
-    
+
     const renderBoard = () => {
         return (
             <div className="w-[600px] h-[600px] grid grid-cols-8 grid-rows-8">
@@ -49,7 +88,7 @@ const Board: React.FC<BoardProps> = ({ fen }) => {
                     const p = piece === " " ? null : {type: piece, position: index};
 
                     return (
-                        <BoardSquare color={bgColor} piece={p} position={index} />
+                        <BoardSquare color={bgColor} piece={p} position={index} movers={{handleMove, move}} />
                     );
                 })}
             </div>

@@ -1,9 +1,8 @@
 import React from "react";
 import { PromotionProps } from "../../types/components/Board";
-import { move } from "../../utils/constants/Chess";
 import { getPieceImg } from "../../utils/pieces/PieceUtils";
 
-const Promotion: React.FC<PromotionProps> = ({promotion: {from, to, color}}) => {
+const Promotion: React.FC<PromotionProps> = ({promotion: {from, to, color}, move}) => {
     const promotionPieces: ('q' | 'b' | 'r' | 'n')[] = ['q', 'r', 'b', 'n'];
 
     return (

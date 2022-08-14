@@ -2,7 +2,7 @@ import { GameState } from "../../types/chess/GameState";
 import { Action, ActionTypes } from "../actions/ActionTypes";
 import { chess } from "../../utils/constants/Chess";
 
-const initialState: GameState = {
+export const initialState: GameState = {
     board: chess.board(),
     gameStatus: false,
     result: null,
@@ -36,6 +36,14 @@ const chessReducer = (state = initialState, action: Action): GameState => {
             ...state,
             promotion: action.payload,
         };
+    } else if (action.type === ActionTypes.RESET) {
+        return {
+            board: action.payload.board,
+            gameStatus: action.payload.gameStatus,
+            result: action.payload.result,
+            turn: action.payload.turn,
+            promotion: action.payload.promotion,
+        }
     }
     return state;
 }
