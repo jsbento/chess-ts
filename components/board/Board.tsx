@@ -48,7 +48,7 @@ const Board: React.FC = () => {
         }
     }
 
-    const updateBoard = () => {
+    useEffect(() => {
         const cBoard: string[] = [];
         for (let rank = 0; rank < RANK_FILE_MAX; rank++) {
             for (let file = 0; file < RANK_FILE_MAX; file++) {
@@ -65,11 +65,7 @@ const Board: React.FC = () => {
             }
         }
         setCharBoard(cBoard);
-    }
-
-    useEffect(() => {
-        updateBoard()
-    }, [updateBoard, board]);
+    }, [board]);
 
     const renderBoard = () => {
         return (
