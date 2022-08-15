@@ -67,7 +67,7 @@ const Board: React.FC = () => {
         setCharBoard(cBoard);
     }
 
-    useEffect(() => updateBoard(), [board]);
+    useEffect(() => updateBoard(), [updateBoard, board]);
 
     const renderBoard = () => {
         return (
