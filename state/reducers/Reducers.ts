@@ -1,5 +1,5 @@
 import { GameState } from "../../types/chess/GameState";
-import { Action, ActionTypes } from "../actions/ActionTypes";
+import { Action, ActionTypes } from "../../types/chess/GameState";
 import { chess } from "../../utils/constants/Chess";
 
 export const initialState: GameState = {
