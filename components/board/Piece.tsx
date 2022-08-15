@@ -16,10 +16,12 @@ const Piece: React.FC<Piece> = ({ type, position }) => {
     return (
         <div className="w-100% h-100%" ref={drag}>
             <Image
-                className="w-100% h-100% cursor-grab"
                 src={getPieceImg(type)}
                 style={{ opacity: isDragging ? 0 : 1, cursor: "grab" }}
                 alt={type}
+                layout="intrinsic"
+                width={75}
+                height={75}
             />
         </div>
     );

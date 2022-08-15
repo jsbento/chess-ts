@@ -10,7 +10,14 @@ const PromotionSquare: React.FC<PromotionProps> = ({promotion, move}) => {
         <div className="grid grid-cols-2 grid-rows-2">
             {promotionPieces.map((piece, idx) => (
                 <div className={`box-${idx+1}`} key={idx} onClick={() => move(promotion.from, promotion.to, piece)}>
-                    <Image className="cursor-pointer" src={getPieceImg(promotion.color === "w" ? piece.toUpperCase() : piece)}/>
+                    <Image
+                        style={{ cursor: "pointer" }}
+                        src={getPieceImg(promotion.color === "w" ? piece.toUpperCase() : piece)}
+                        alt={promotion.color === "w" ? piece.toUpperCase() : piece}
+                        layout="intrinsic"
+                        width={75}
+                        height={75}
+                    />
                 </div>
             ))}
         </div>
