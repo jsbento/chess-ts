@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import * as BoardTypes from "../../types/chess/Board";
-import { chess, gameState, getResult, RANK_FILE_MAX } from "../../utils/constants/Chess";
+import { chess, getResult, RANK_FILE_MAX } from "../../utils/constants/Chess";
 import { RANKS, FILES } from "../../utils/constants/Board";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -19,7 +19,7 @@ const Board: React.FC<BoardTypes.BoardProps> = ({ fen }) => {
     const { board, promotion, result } = useSelector((state: GameState) => state);
 
     const _updatePromotion = useCallback((promotion: {from: string, to: string, color: string} | null) => dispatch(Actions.setPromotion(promotion)), [dispatch]);
-    const _setStore = useCallback((newState: GameState) => dispatch(Actions.reset(newState)), [dispatch]);
+    const _setStore = useCallback((newState: GameState) => dispatch(Actions.setState(newState)), [dispatch]);
 
     const handleMove = (from: string, to: string) => {
         const promotions = chess.moves({ verbose: true }).filter(move => move.promotion);

@@ -11,4 +11,4 @@ export const setPromotion = (payload: {from: string, to: string, color: string} 
 
 export const setResult = (payload: string | null) => ({ type: "SET_RESULT", payload });
 
-export const reset = (payload: GameState) => ({ type: "RESET", payload });
+export const setState = (payload: GameState) => ({ type: "SET_STATE", payload });

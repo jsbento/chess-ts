@@ -4,7 +4,7 @@ export const ActionTypes = {
     SET_TURN: "SET_TURN",
     SET_PROMOTION: "SET_PROMOTION",
     SET_RESULT: "SET_RESULT",
-    RESET: "RESET",
+    SET_STATE: "SET_STATE",
 }
 
 export type Action = {
