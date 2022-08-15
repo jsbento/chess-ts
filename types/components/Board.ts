@@ -1,4 +1,4 @@
-import { Piece } from "../chess/Piece";
+import { Piece, Promotion } from "../chess/Piece";
 
 export type BoardSquareProps = {
     color: string;
@@ -11,10 +11,6 @@ export type BoardSquareProps = {
 }
 
 export type PromotionProps = {
-    promotion: {
-        from: string;
-        to: string;
-        color: string;
-    };
+    promotion: Promotion;
     move: (from: string, to: string, promoteTo: undefined | "b" | "q" | "r" | "n") => void;
 }

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import * as BoardTypes from "../../types/chess/Board";
 import { chess, getResult, RANK_FILE_MAX } from "../../utils/constants/Chess";
 import { RANKS, FILES } from "../../utils/constants/Board";
 import { DndProvider } from "react-dnd";
@@ -8,18 +7,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { GameState } from "../../types/chess/GameState";
 import * as Actions from "../../state/actions/Actions";
 import BoardSquare from "./BoardSquare";
-import { initialState } from "../../state/reducers/Reducers";
 import { ShortMove } from "chess.js";
+import { Promotion } from "../../types/chess/Piece";
 
-const Board: React.FC<BoardTypes.BoardProps> = ({ fen }) => {
-    const [fenStr, setFEN] = useState(fen);
+const Board: React.FC = () => {
+    const dispatch = useDispatch();
+
+    const { board, promotion, moves } = useSelector((state: GameState) => state);
     const [charBoard, setCharBoard] = useState<string[]>([]);
 
-    const dispatch = useDispatch();
-    const { board, promotion, result } = useSelector((state: GameState) => state);
-
-    const _updatePromotion = useCallback((promotion: {from: string, to: string, color: string} | null) => dispatch(Actions.setPromotion(promotion)), [dispatch]);
-    const _setStore = useCallback((newState: GameState) => dispatch(Actions.setState(newState)), [dispatch]);
+    const _updatePromotion = useCallback((promotion: Promotion | null) => dispatch(Actions.setPromotion(promotion)), [dispatch]);
+    const _setState = useCallback((newState: GameState) => dispatch(Actions.setState(newState)), [dispatch]);
 
     const handleMove = (from: string, to: string) => {
         const promotions = chess.moves({ verbose: true }).filter(move => move.promotion);
@@ -27,10 +25,10 @@ const Board: React.FC<BoardTypes.BoardProps> = ({ fen }) => {
             _updatePromotion({ from, to, color: promotions[0].color });
         }
 
-        if (!promotion) move(from, to, undefined);
+        if (!promotion) move(from, to);
     }
 
-    const move = (from: string, to: string, promoteTo: undefined | "b" | "n" | "r" | "q") => {
+    const move = (from: string, to: string, promoteTo: undefined | "b" | "n" | "r" | "q" = undefined) => {
         let move = { from, to } as ShortMove;
 
         if (promoteTo) move.promotion = promoteTo;
@@ -44,16 +42,13 @@ const Board: React.FC<BoardTypes.BoardProps> = ({ fen }) => {
                 gameStatus,
                 result: gameStatus ? getResult() : null,
                 promotion: move.promotion ? null : promotion,
+                moves: [...moves, legalMove.san],
             }
-            _setStore(update);
+            _setState(update);
         }
     }
 
     const updateBoard = () => {
-        if (result !== null) {
-            chess.reset();
-            _setStore(initialState);
-        }
         const cBoard: string[] = [];
         for (let rank = 0; rank < RANK_FILE_MAX; rank++) {
             for (let file = 0; file < RANK_FILE_MAX; file++) {

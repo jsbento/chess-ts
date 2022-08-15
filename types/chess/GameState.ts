@@ -1,11 +1,13 @@
 import { BoardSquare } from "./Board";
+import { Promotion } from "./Piece";
 
 export type GameState = {
     board: (BoardSquare | null)[][];
     gameStatus: boolean;
     turn: string;
-    promotion: {from: string, to: string, color: string} | null;
+    promotion: Promotion | null;
     result: string | null;
+    moves: string[];
 }
 
 export const ActionTypes = {
@@ -15,6 +17,7 @@ export const ActionTypes = {
     SET_PROMOTION: "SET_PROMOTION",
     SET_RESULT: "SET_RESULT",
     SET_STATE: "SET_STATE",
+    SET_MOVES: "SET_MOVES",
 }
 
 export type Action = {

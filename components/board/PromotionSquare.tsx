@@ -1,19 +1,20 @@
 import React from "react";
 import { PromotionProps } from "../../types/components/Board";
+import { Promotion } from "../../types/chess/Piece";
 import { getPieceImg } from "../../utils/pieces/PieceUtils";
 
-const Promotion: React.FC<PromotionProps> = ({promotion: {from, to, color}, move}) => {
+const PromotionSquare: React.FC<PromotionProps> = ({promotion, move}) => {
     const promotionPieces: ('q' | 'b' | 'r' | 'n')[] = ['q', 'r', 'b', 'n'];
 
     return (
         <div className="grid grid-cols-2 grid-rows-2">
             {promotionPieces.map((piece, idx) => (
-                <div className={`box-${idx+1}`} key={idx} onClick={() => move(from, to, piece)}>
-                    <img className="cursor-pointer" src={getPieceImg(color === "w" ? piece.toUpperCase() : piece)}/>
+                <div className={`box-${idx+1}`} key={idx} onClick={() => move(promotion.from, promotion.to, piece)}>
+                    <img className="cursor-pointer" src={getPieceImg(promotion.color === "w" ? piece.toUpperCase() : piece)}/>
                 </div>
             ))}
         </div>
     );
 }
 
-export default Promotion;
+export default PromotionSquare;

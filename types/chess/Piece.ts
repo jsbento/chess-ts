@@ -12,3 +12,9 @@ export type Square = {
 export type PieceMapType = {
     [key: string]: string;
 }
+
+export type Promotion = {
+    from: string;
+    to: string;
+    color: string;
+}

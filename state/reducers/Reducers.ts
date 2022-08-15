@@ -8,6 +8,7 @@ export const initialState: GameState = {
     result: null,
     turn: "w",
     promotion: null,
+    moves: [],
 };
 
 const chessReducer = (state = initialState, action: Action): GameState => {
@@ -24,6 +25,8 @@ const chessReducer = (state = initialState, action: Action): GameState => {
             return resultReducer(state, action);
         case ActionTypes.SET_STATE:
             return stateReducer(state, action);
+        case ActionTypes.SET_MOVES:
+            return movesReducer(state, action);
         default:
             return state;
     }
@@ -35,5 +38,6 @@ const resultReducer = (state: GameState, action: Action): GameState => ({...stat
 const turnReducer = (state: GameState, action: Action): GameState => ({...state, turn: action.payload});
 const promotionReducer = (state: GameState, action: Action): GameState => ({...state, promotion: action.payload});
 const stateReducer = (state: GameState, action: Action): GameState => ({...state, ...action.payload});
+const movesReducer = (state: GameState, action: Action): GameState => ({...state, moves: [...state.moves, action.payload]});
 
 export default chessReducer;
