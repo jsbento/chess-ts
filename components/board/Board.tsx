@@ -69,7 +69,7 @@ const Board: React.FC = () => {
 
     useEffect(() => {
         updateBoard()
-    }, [board]);
+    }, [updateBoard, board]);
 
     const renderBoard = () => {
         return (
