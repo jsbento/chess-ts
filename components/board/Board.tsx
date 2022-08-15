@@ -79,7 +79,7 @@ const Board: React.FC = () => {
                     const p = piece === " " ? null : {type: piece, position: index};
 
                     return (
-                        <BoardSquare color={bgColor} piece={p} position={index} movers={{handleMove, move}} />
+                        <BoardSquare key={index} color={bgColor} piece={p} position={index} movers={{handleMove, move}} />
                     );
                 })}
             </div>
