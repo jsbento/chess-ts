@@ -18,10 +18,6 @@ const Board: React.FC<BoardTypes.BoardProps> = ({ fen }) => {
     const dispatch = useDispatch();
     const { board, promotion, result } = useSelector((state: GameState) => state);
 
-    // const _updateBoard = useCallback((board: (BoardTypes.BoardSquare | null)[][]) => dispatch(Actions.setBoard(board)), [dispatch]);
-    // const _updateResult = useCallback((result: string) => dispatch(Actions.setResult(result)), [dispatch]);
-    // const _updateTurn = useCallback((turn: string) => dispatch(Actions.setTurn(turn)), [dispatch]);
-    // const _updateGameStatus = useCallback((gameStatus: boolean) => dispatch(Actions.setGameStatus(gameStatus)), [dispatch]);
     const _updatePromotion = useCallback((promotion: {from: string, to: string, color: string} | null) => dispatch(Actions.setPromotion(promotion)), [dispatch]);
     const _setStore = useCallback((newState: GameState) => dispatch(Actions.reset(newState)), [dispatch]);
 
@@ -37,7 +33,7 @@ const Board: React.FC<BoardTypes.BoardProps> = ({ fen }) => {
     const move = (from: string, to: string, promoteTo: undefined | "b" | "n" | "r" | "q") => {
         let move = { from, to } as ShortMove;
 
-        if (promotion) move.promotion = promoteTo;
+        if (promoteTo) move.promotion = promoteTo;
 
         const legalMove = chess.move(move);
         if (legalMove) {
@@ -47,7 +43,7 @@ const Board: React.FC<BoardTypes.BoardProps> = ({ fen }) => {
                 turn: chess.turn(),
                 gameStatus,
                 result: gameStatus ? getResult() : null,
-                promotion: promotion
+                promotion: move.promotion ? null : promotion,
             }
             _setStore(update);
         }
