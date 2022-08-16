@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 const Home: NextPage = () => {
@@ -17,25 +18,25 @@ const Home: NextPage = () => {
         </h1>
 
         <div className={styles.grid}>
-          <a href="/chess" className={styles.card}>
+          <Link href="/chess" className={styles.card}>
             <h2>Play &rarr;</h2>
             <p>Play a game of chess!</p>
-          </a>
+          </Link>
 
-          <a href="/about" className={styles.card}>
+          <Link href="/about" className={styles.card}>
             <h2>About &rarr;</h2>
             <p>Read a quick overview of how the project was built.</p>
-          </a>
+          </Link>
 
-          <a
+          <Link
             href="https://github.com/jsbento/chess-ts"
             className={styles.card}
           >
             <h2>The Code &rarr;</h2>
             <p>Browse through the source code.</p>
-          </a>
+          </Link>
 
-          <a
+          {/* <Link
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
             className={styles.card}
           >
@@ -43,7 +44,7 @@ const Home: NextPage = () => {
             <p>
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
-          </a>
+          </Link> */}
         </div>
       </main>
 
