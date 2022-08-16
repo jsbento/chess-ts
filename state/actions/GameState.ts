@@ -1,5 +1,5 @@
 import { BoardSquare } from "../../types/chess/Board";
-import { GameState } from "../../types/chess/GameState";
+import { GameState } from "../../types/state/GameState";
 import { Promotion } from "../../types/chess/Piece";
 
 export const setBoard = (payload: (BoardSquare | null)[][] | null) => ({ type: "SET_BOARD", payload });

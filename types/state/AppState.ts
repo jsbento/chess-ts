@@ -1,13 +1,9 @@
-import { BoardSquare } from "./Board";
-import { Promotion } from "./Piece";
+import { GameState } from "./GameState"
+import { SettingsState } from "./SettingsState";
 
-export type GameState = {
-    board: (BoardSquare | null)[][];
-    gameStatus: boolean;
-    turn: string;
-    promotion: Promotion | null;
-    result: string | null;
-    moves: string[];
+export type AppState = {
+    gameState: GameState;
+    settings: SettingsState;
 }
 
 export const ActionTypes = {
@@ -18,6 +14,8 @@ export const ActionTypes = {
     SET_RESULT: "SET_RESULT",
     SET_STATE: "SET_STATE",
     SET_MOVES: "SET_MOVES",
+    SET_SETTINGS: "SET_SETTINGS",
+    SET_PLAYER_WHITE: "SET_PLAYER_WHITE",
 }
 
 export type Action = {

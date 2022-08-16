@@ -1,9 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { AppState } from "../types/state/AppState";
 import { chess } from "../utils/constants/Chess";
 
 const MovesList: React.FC = () => {
-    const moves = useSelector((state: any) => state.moves);
+    const moves = useSelector((state: AppState) => state.gameState.moves);
 
     const makeRows = () => {
         const rows = [];

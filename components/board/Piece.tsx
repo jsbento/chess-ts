@@ -2,13 +2,13 @@ import React from "react";
 import Image from "next/image";
 import { useDrag, DragSourceMonitor, DragPreviewImage } from "react-dnd";
 import { useSelector } from "react-redux";
-import { GameState } from "../../types/chess/GameState";
+import { AppState } from "../../types/state/AppState";
 import { Piece } from "../../types/chess/Piece";
 import { PieceImageMap } from "../../utils/constants/PieceImages";
 import { indexToSquare } from "../../utils/pieces/PieceUtils";
 
 const Piece: React.FC<Piece> = ({ type, position }) => {
-    const promotion = useSelector((state: GameState) => state.promotion);
+    const promotion = useSelector((state: AppState) => state.gameState.promotion);
 
     const [{ isDragging }, drag, preview] = useDrag({
         type: "piece",
