@@ -4,8 +4,8 @@ import Logo from "./Logo";
 
 const NavBar: React.FC = () => {
     return (
-        <>
-            <ul className="flex justify-end px-8 py-3 gap-12 items-center bg-slate-400 text-black">
+        <div className="sticky w-screen">
+            <ul className="flex justify-end px-8 py-3 gap-12 items-center bg-slate-400 text-black border-black">
                 <li className="mr-auto">
                     <Logo />
                 </li>
@@ -16,7 +16,7 @@ const NavBar: React.FC = () => {
                     <Link href="/about">About</Link>
                 </li>
             </ul>
-        </>
+        </div>
     );
 }
 
