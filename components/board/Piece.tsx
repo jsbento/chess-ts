@@ -1,11 +1,16 @@
 import React from "react";
 import Image from "next/image";
+import { useDrag, DragSourceMonitor, DragPreviewImage } from "react-dnd";
+import { useSelector } from "react-redux";
+import { GameState } from "../../types/chess/GameState";
 import { Piece } from "../../types/chess/Piece";
-import { useDrag, DragSourceMonitor } from "react-dnd";
 import { PieceImageMap } from "../../utils/constants/PieceImages";
+import { indexToSquare } from "../../utils/pieces/PieceUtils";
 
 const Piece: React.FC<Piece> = ({ type, position }) => {
-    const [{ isDragging }, drag] = useDrag({
+    const promotion = useSelector((state: GameState) => state.promotion);
+
+    const [{ isDragging }, drag, preview] = useDrag({
         type: "piece",
         item: { type, id: `${position}_${type}` },
         collect: (monitor: DragSourceMonitor) => ({
@@ -15,9 +20,10 @@ const Piece: React.FC<Piece> = ({ type, position }) => {
 
     return (
         <div className="w-100% h-100%" ref={drag}>
+            <DragPreviewImage connect={preview} src={PieceImageMap[type]} />
             <Image
                 src={PieceImageMap[type]}
-                style={{ opacity: isDragging ? 0 : 1, cursor: "grab" }}
+                style={{ opacity: isDragging || (promotion && promotion.from === indexToSquare(position)) ? 0 : 1, cursor: "grab" }}
                 alt={type}
                 layout="intrinsic"
                 width={75}

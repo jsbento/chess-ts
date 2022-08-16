@@ -13,13 +13,10 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className="text-6xl">
+        <h1 className="text-5xl">
           Welcome to Chess-TS!
         </h1>
       </main>
-
-      <footer className={styles.footer}>
-      </footer>
     </div>
   )
 }

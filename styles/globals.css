@@ -61,3 +61,18 @@ a {
 .chess-board {
   display: grid;
 }
+
+.center-text {
+  position: relative;
+  padding: 1em 0;
+  margin: 0;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.1em;
+}
+
+.result-card {
+  @apply absolute z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+  flex flex-col items-center bg-slate-200 rounded-lg p-4 drop-shadow-2xl
+  border-black border-2 shadow-2xl;
+}

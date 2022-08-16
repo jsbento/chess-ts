@@ -10,7 +10,7 @@ import BoardSquare from "./BoardSquare";
 import { ShortMove } from "chess.js";
 import { Promotion } from "../../types/chess/Piece";
 
-const Board: React.FC = () => {
+const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
     const dispatch = useDispatch();
 
     const { board, promotion, moves } = useSelector((state: GameState) => state);
@@ -69,7 +69,7 @@ const Board: React.FC = () => {
 
     const renderBoard = () => {
         return (
-            <div className="w-[600px] h-[600px] grid grid-cols-8 grid-rows-8">
+            <div className="w-[600px] h-[600px] grid grid-cols-8 grid-rows-8 border-black border-2">
                 {charBoard.map((piece, index) => {
                     const rank = Math.floor(index / 8);
                     const file = index % 8;
@@ -87,15 +87,16 @@ const Board: React.FC = () => {
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="chess-board p-10 items-start justify-items-start">
-                <div className="box-1 w-[50px] h-[600px] flex flex-col items-center justify-between">
-                    {[...RANKS].reverse().map((rank, index) => <p key={index}>{rank}</p>)}
+                <div className="box-1 w-[50px] h-[600px] flex flex-col items-center mt-2 mr-3">
+                    {[...RANKS].reverse().map((rank, index) => <p key={index} className="h-[12.5%] center-text">{rank}</p>)}
                 </div>
-                <div className="box-2 items-center justify-center">
+                <div className="box-2 items-center justify-center relative">
                     {renderBoard()}
+                    {children}
                 </div>
                 <div className="box-3 w-[50px] h-[50px]"></div>
-                <div className="box-4 w-[600px] h-[50px] flex flex-row items-center justify-between">
-                    {FILES.map((file, index) => <p key={index}>{file}</p>)}
+                <div className="box-4 w-[600px] h-[50px] flex flex-row items-center">
+                    {FILES.map((file, index) => <p key={index} className="w-[12.5%] center-text">{file}</p>)}
                 </div>
             </div>
         </DndProvider>

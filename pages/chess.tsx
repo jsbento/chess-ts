@@ -9,9 +9,10 @@ const Chess: NextPage = () => {
     const result = useSelector((state: GameState) => state.result);
 
     return (
-        <div className="bg-slate-300 flex items-center justify-center">
-            {result && <ResultCard result={result} />}
-            <Board />
+        <div className="bg-white flex items-center justify-center">
+            <Board>
+                 {result && <ResultCard result={result} />}
+            </Board>
             <MovesList />
         </div>
     )
