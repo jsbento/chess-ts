@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import Logo from "./Logo";
 
 const NavBar: React.FC = () => {
@@ -9,10 +10,10 @@ const NavBar: React.FC = () => {
                     <Logo />
                 </li>
                 <li className="hover:scale-105 font-bold text-lg">
-                    <a href="/chess">Play</a>
+                    <Link href="/chess">Play</Link>
                 </li>
                 <li className="hover:scale-105 font-bold text-lg">
-                    <a href="/about">About</a>
+                    <Link href="/about">About</Link>
                 </li>
             </ul>
         </>
