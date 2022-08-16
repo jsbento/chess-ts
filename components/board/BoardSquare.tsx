@@ -4,11 +4,11 @@ import Piece from "./Piece";
 import { useDrop } from "react-dnd";
 import { BoardSquareProps } from "../../types/components/Board";
 import { indexToSquare } from "../../utils/pieces/PieceUtils";
-import { GameState } from "../../types/chess/GameState";
 import PromotionSquare from "./PromotionSquare";
+import { AppState } from "../../types/state/AppState";
 
 const BoardSquare: React.FC<BoardSquareProps> = ({color, piece, position, movers}) => {
-    const promotion = useSelector((state: GameState) => state.promotion);
+    const promotion = useSelector((state: AppState) => state.gameState.promotion);
 
     const [, drop] = useDrop({
         accept: "piece",

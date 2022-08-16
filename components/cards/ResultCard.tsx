@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { ResultCardProps } from "../../types/components/ResultCard";
-import { GameState } from "../../types/chess/GameState";
-import { initialState } from "../../state/reducers/Reducers";
-import * as Actions from "../../state/actions/Actions";
+import { GameState } from "../../types/state/GameState";
+import { initialState } from "../../state/reducers/GameState";
+import * as Actions from "../../state/actions/GameState";
 import { chess } from "../../utils/constants/Chess";
 
 const ResultCard: React.FC<ResultCardProps> = ({ result }) => {

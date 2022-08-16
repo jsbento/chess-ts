@@ -4,8 +4,9 @@ import { RANKS, FILES } from "../../utils/constants/Board";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useSelector, useDispatch } from "react-redux";
-import { GameState } from "../../types/chess/GameState";
-import * as Actions from "../../state/actions/Actions";
+import { AppState } from "../../types/state/AppState";
+import { GameState } from "../../types/state/GameState";
+import * as Actions from "../../state/actions/GameState";
 import BoardSquare from "./BoardSquare";
 import { ShortMove } from "chess.js";
 import { Promotion } from "../../types/chess/Piece";
@@ -13,7 +14,8 @@ import { Promotion } from "../../types/chess/Piece";
 const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
     const dispatch = useDispatch();
 
-    const { board, promotion, moves } = useSelector((state: GameState) => state);
+    const { board, promotion, moves } = useSelector((state: AppState) => state.gameState);
+    const { playerWhite } = useSelector((state: AppState) => state.settings);
     const [charBoard, setCharBoard] = useState<string[]>([]);
 
     const _updatePromotion = useCallback((promotion: Promotion | null) => dispatch(Actions.setPromotion(promotion)), [dispatch]);
@@ -64,31 +66,53 @@ const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
                 }
             }
         }
-        setCharBoard(cBoard);
-    }, [board]);
+        if (!playerWhite)
+            setCharBoard(cBoard.reverse());
+        else
+            setCharBoard(cBoard);
+    }, [board, playerWhite]);
 
     const renderBoard = () => {
         return (
             <div className="w-[600px] h-[600px] grid grid-cols-8 grid-rows-8 border-black border-2">
                 {charBoard.map((piece, index) => {
-                    const rank = Math.floor(index / 8);
-                    const file = index % 8;
+                    let shiftedIndex: number;
+                    if (!playerWhite)
+                        shiftedIndex = charBoard.length - 1 - index;
+                    else
+                        shiftedIndex = index;
+                    const rank = Math.floor(shiftedIndex / 8);
+                    const file = shiftedIndex % 8;
                     const bgColor = (rank + file) % 2 === 0 ? "bg-brown-light" : "bg-brown";
-                    const p = piece === " " ? null : {type: piece, position: index};
+                    const p = piece === " " ? null : {type: piece, position: shiftedIndex};
 
                     return (
-                        <BoardSquare key={index} color={bgColor} piece={p} position={index} movers={{handleMove, move}} />
+                        <BoardSquare key={shiftedIndex} color={bgColor} piece={p} position={shiftedIndex} movers={{handleMove, move}} />
                     );
                 })}
             </div>
         );
     }
 
+    const renderRanks = () => {
+        let ranks_ordered: string[];
+        if (!playerWhite)
+            ranks_ordered = RANKS;
+        else
+            ranks_ordered = [...RANKS].reverse();
+        
+        return ranks_ordered.map((rank, index) => <p key={index} className="h-[12.5%] center-text">{rank}</p>);
+    }
+
+    const renderFiles = () => {
+        return FILES.map((file, index) => <p key={index} className="w-[12.5%] center-text">{file}</p>);
+    }
+
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="chess-board p-10 items-start justify-items-start">
                 <div className="box-1 w-[50px] h-[600px] flex flex-col items-center mt-2 mr-3">
-                    {[...RANKS].reverse().map((rank, index) => <p key={index} className="h-[12.5%] center-text">{rank}</p>)}
+                    {renderRanks()}
                 </div>
                 <div className="box-2 items-center justify-center relative">
                     {renderBoard()}
@@ -96,7 +120,7 @@ const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
                 </div>
                 <div className="box-3 w-[50px] h-[50px]"></div>
                 <div className="box-4 w-[600px] h-[50px] flex flex-row items-center">
-                    {FILES.map((file, index) => <p key={index} className="w-[12.5%] center-text">{file}</p>)}
+                    {renderFiles()}
                 </div>
             </div>
         </DndProvider>
