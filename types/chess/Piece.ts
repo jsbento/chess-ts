@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image";
+
 export type Piece = {
     type: string;
     position: number;

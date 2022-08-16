@@ -16,7 +16,7 @@ const Piece: React.FC<Piece> = ({ type, position }) => {
     return (
         <div className="w-100% h-100%" ref={drag}>
             <Image
-                src={"/Chess_klt45.svg"}
+                src={PieceImageMap[type]}
                 style={{ opacity: isDragging ? 0 : 1, cursor: "grab" }}
                 alt={type}
                 layout="intrinsic"
