@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { PromotionProps } from "../../types/components/Board";
-import { getPieceImg } from "../../utils/pieces/PieceUtils";
+import { PieceImageMap } from "../../utils/constants/PieceImages";
 
 const PromotionSquare: React.FC<PromotionProps> = ({promotion, move}) => {
     const promotionPieces: ('q' | 'b' | 'r' | 'n')[] = ['q', 'r', 'b', 'n'];
@@ -12,7 +12,7 @@ const PromotionSquare: React.FC<PromotionProps> = ({promotion, move}) => {
                 <div className={`box-${idx+1}`} key={idx} onClick={() => move(promotion.from, promotion.to, piece)}>
                     <Image
                         style={{ cursor: "pointer" }}
-                        src={getPieceImg(promotion.color === "w" ? piece.toUpperCase() : piece)}
+                        src={PieceImageMap[promotion.color === "w" ? piece.toUpperCase() : piece]}
                         alt={promotion.color === "w" ? piece.toUpperCase() : piece}
                         layout="intrinsic"
                         width={75}

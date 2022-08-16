@@ -1,7 +1,4 @@
-import { PieceImageMap } from "../constants/PieceImages";
 import { RANK_FILE_MAX } from "../constants/Chess";
-
-export const getPieceImg = (type: string) => PieceImageMap[type];
 
 export const indexToSquare = (index: number): string => {
     const file = index % 8;
