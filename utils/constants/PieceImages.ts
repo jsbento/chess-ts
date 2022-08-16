@@ -1,7 +1,8 @@
 import { PieceMapType } from "../../types/chess/Piece";
+import wKing from "../../public/Chess_klt45.svg";
 
 export const PieceImageMap: PieceMapType = {
-    "K": "/Chess_klt45.svg",
+    "K": wKing,
     "Q": "/Chess_qlt45.svg",
     "R": "/Chess_rlt45.svg",
     "B": "/Chess_blt45.svg",
