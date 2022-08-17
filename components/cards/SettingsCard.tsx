@@ -6,9 +6,10 @@ import * as Actions from "../../state/actions/SettingsState";
 const SettingsCard: React.FC = () => {
     const dispatch = useDispatch();
 
-    const playerWhite = useSelector((state: AppState) => state.settings.playerWhite);
+    const { playerWhite, useAI } = useSelector((state: AppState) => state.settings);
 
     const _updatePlayerWhite = useCallback((playerWhite: boolean) => dispatch(Actions.setPlayerWhite(playerWhite)), [dispatch]);
+    const _updateUseAI = useCallback((useAI: boolean) => dispatch(Actions.setUseAI(useAI)), [dispatch]);
 
     return (
         <div className="w-[200px] h-[500px] border border-1 border-black items-center text-center">
@@ -17,11 +18,17 @@ const SettingsCard: React.FC = () => {
                 <p className="font-semibold">
                     Playing as:
                 </p>
-                <button className="rounded border px-1 ml-3 bg-slate-300 font-semibold"
+                <button className="rounded border px-1 ml-3 mt-1 bg-slate-300 font-semibold"
                     onClick={() => _updatePlayerWhite(!playerWhite)}
                 >
                     {playerWhite ? "White" : "Black"}
                 </button>
+            </div>
+            <div className="flex items-center justify-center mt-3">
+                <p className="font-semibold">
+                    Use AI:
+                </p>
+                <input type="checkbox" className="ml-3 mt-1" checked={useAI} onChange={() => _updateUseAI(!useAI)}/>
             </div>
         </div>
     );

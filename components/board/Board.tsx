@@ -10,14 +10,17 @@ import * as Actions from "../../state/actions/GameState";
 import BoardSquare from "./BoardSquare";
 import { ShortMove } from "chess.js";
 import { Promotion } from "../../types/chess/Piece";
+import { getEngineMove } from "../../utils/engine/Engine";
+import * as BoardTypes from "../../types/chess/Board";
 
 const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
     const dispatch = useDispatch();
 
-    const { board, promotion, moves } = useSelector((state: AppState) => state.gameState);
-    const { playerWhite } = useSelector((state: AppState) => state.settings);
+    const { board, promotion, moves, turn, gameStatus } = useSelector((state: AppState) => state.gameState);
+    const { playerWhite, useAI } = useSelector((state: AppState) => state.settings);
     const [charBoard, setCharBoard] = useState<string[]>([]);
 
+    const _updateBoard = useCallback((board: (BoardTypes.BoardSquare | null)[][]) => dispatch(Actions.setBoard(board)), [dispatch]);
     const _updatePromotion = useCallback((promotion: Promotion | null) => dispatch(Actions.setPromotion(promotion)), [dispatch]);
     const _setState = useCallback((newState: GameState) => dispatch(Actions.setState(newState)), [dispatch]);
 
@@ -49,6 +52,22 @@ const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
             _setState(update);
         }
     }
+
+    useEffect(() => {
+        if (useAI && !gameStatus && (playerWhite && turn === "b" || !playerWhite && turn === "w")) {
+            const possMoves = chess.moves({ verbose: true });
+            const randMove = possMoves[Math.floor(Math.random() * possMoves.length)];
+            move(randMove.from, randMove.to, randMove.promotion);
+            _setState({
+                board: chess.board(),
+                turn: chess.turn(),
+                gameStatus: chess.game_over(),
+                result: chess.game_over() ? getResult() : null,
+                promotion: null,
+                moves: [...moves, randMove.san],
+            });
+        }
+    }, [turn, playerWhite]);
 
     useEffect(() => {
         const cBoard: string[] = [];
