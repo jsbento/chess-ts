@@ -13,7 +13,7 @@ const Chess: NextPage = () => {
         <div className="bg-white flex items-center justify-center">
             <SettingsCard />
             <Board>
-                 {result && <ResultCard result={result} />}
+                {result && <ResultCard result={result} />}
             </Board>
             <MovesList />
         </div>

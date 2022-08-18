@@ -8,7 +8,7 @@ import { AppState } from "../../types/state/AppState";
 import { GameState } from "../../types/state/GameState";
 import * as Actions from "../../state/actions/GameState";
 import BoardSquare from "./BoardSquare";
-import { ShortMove } from "chess.js";
+import { Move, ShortMove } from "chess.js";
 import { Promotion } from "../../types/chess/Piece";
 import { getEngineMove } from "../../utils/engine/Engine";
 import * as BoardTypes from "../../types/chess/Board";
@@ -20,7 +20,6 @@ const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
     const { playerWhite, useAI } = useSelector((state: AppState) => state.settings);
     const [charBoard, setCharBoard] = useState<string[]>([]);
 
-    const _updateBoard = useCallback((board: (BoardTypes.BoardSquare | null)[][]) => dispatch(Actions.setBoard(board)), [dispatch]);
     const _updatePromotion = useCallback((promotion: Promotion | null) => dispatch(Actions.setPromotion(promotion)), [dispatch]);
     const _setState = useCallback((newState: GameState) => dispatch(Actions.setState(newState)), [dispatch]);
 
@@ -54,19 +53,21 @@ const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
     }
 
     useEffect(() => {
-        if (useAI && !gameStatus && (playerWhite && turn === "b" || !playerWhite && turn === "w")) {
-            const possMoves = chess.moves({ verbose: true });
-            const randMove = possMoves[Math.floor(Math.random() * possMoves.length)];
-            move(randMove.from, randMove.to, randMove.promotion);
-            _setState({
-                board: chess.board(),
-                turn: chess.turn(),
-                gameStatus: chess.game_over(),
-                result: chess.game_over() ? getResult() : null,
-                promotion: null,
-                moves: [...moves, randMove.san],
-            });
+        const getMove = async () => {
+            if (useAI && !gameStatus && (playerWhite && turn === "b" || !playerWhite && turn === "w")) {
+                const engineMove = await getEngineMove(chess.moves({ verbose: true }));
+                move(engineMove.from, engineMove.to, engineMove.promotion);
+                _setState({
+                    board: chess.board(),
+                    turn: chess.turn(),
+                    gameStatus: chess.game_over(),
+                    result: chess.game_over() ? getResult() : null,
+                    promotion: null,
+                    moves: [...moves, engineMove.san],
+                });
+            }
         }
+        getMove();
     }, [turn, playerWhite]);
 
     useEffect(() => {
