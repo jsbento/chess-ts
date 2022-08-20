@@ -23,3 +23,12 @@ export const getResult = () => {
         return "The chess gods demand it...";
     }
 }
+
+export const PieceValues = {
+    "p": 1,
+    "n": 3,
+    "b": 3,
+    "r": 5,
+    "q": 9,
+    "k": 100
+}

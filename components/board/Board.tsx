@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { ReactNode, useState, useEffect, useCallback } from "react";
 import { chess, getResult, RANK_FILE_MAX } from "../../utils/constants/Chess";
 import { RANKS, FILES } from "../../utils/constants/Board";
 import { DndProvider } from "react-dnd";
@@ -8,12 +8,11 @@ import { AppState } from "../../types/state/AppState";
 import { GameState } from "../../types/state/GameState";
 import * as Actions from "../../state/actions/GameState";
 import BoardSquare from "./BoardSquare";
-import { Move, ShortMove } from "chess.js";
+import { ShortMove } from "chess.js";
 import { Promotion } from "../../types/chess/Piece";
 import { getEngineMove } from "../../utils/engine/Engine";
-import * as BoardTypes from "../../types/chess/Board";
 
-const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
+const Board: React.FC<{children: ReactNode}> = ({children}) => {
     const dispatch = useDispatch();
 
     const { board, promotion, moves, turn, gameStatus } = useSelector((state: AppState) => state.gameState);
@@ -55,7 +54,7 @@ const Board: React.FC<{children: React.ReactNode}> = ({children}) => {
     useEffect(() => {
         const getMove = async () => {
             if (useAI && !gameStatus && (playerWhite && turn === "b" || !playerWhite && turn === "w")) {
-                const engineMove = await getEngineMove(chess.moves({ verbose: true }));
+                const engineMove = await getEngineMove(chess.fen());
                 move(engineMove.from, engineMove.to, engineMove.promotion);
                 _setState({
                     board: chess.board(),
