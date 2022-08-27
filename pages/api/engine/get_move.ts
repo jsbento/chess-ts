@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { Chess, ShortMove } from "chess.js";
+import { Chess, ShortMove, Move } from "chess.js";
 import { PieceValues } from "../../../utils/constants/Chess";
 import * as PieceSquareValues from "../../../utils/constants/Engine";
 import { EngineResponse } from "../../../types/api/Server";
@@ -12,10 +12,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Engine
     initMGTable();
     initEGTable();
     const tables = getTables();
-    console.log('mgTable', tables.mgTable);
-    console.log('egTable', tables.egTable);
     const move = minimax(fen, 4, tables);
-    res.status(200).json({ move });
+    res.status(200).json({ move: move! });
 }
 
 const flipTurn = (turn: string): string => turn == 'w' ? 'b' : 'w';
@@ -56,6 +54,29 @@ const evaluate = (board: (BoardSquare | null)[][], tables: {mgTable: EvalTable, 
 }
 
 // For each move, evalute position and return the highest scoring move
-const minimax = (fen: string, depth: number, tables: {mgTable: EvalTable, egTable: EvalTable}): ShortMove => {
-    return { from: "a2", to: "a3" };
+const minimax = (fen: string, depth: number, tables: {mgTable: EvalTable, egTable: EvalTable}): ShortMove | undefined => {
+    if (depth == 0)
+        return undefined;
+    else {
+        // Scores by checks/captures too
+        const chess = new Chess(fen);
+        const score = evaluate(chess.board(), tables, chess.turn());
+        const moves = chess.moves({ verbose: true });
+        const scoredMoves: {moveScore: number, move: ShortMove}[] = [];
+        for (const move of moves) {
+            chess.move(move);
+            scoredMoves.push({moveScore: evaluate(chess.board(), tables, chess.turn()), move});
+            chess.reset();
+        }
+        const bestMoves = scoredMoves.filter(move => move.moveScore >= Math.abs(score));
+        if (bestMoves.length > 0) {
+            const randomIndex = Math.floor(Math.random() * bestMoves.length);
+            console.log('bestMoves', bestMoves[randomIndex], 'score', score);
+            return bestMoves[randomIndex].move;
+        } else {
+            const randomIndex = Math.floor(Math.random() * scoredMoves.length);
+            console.log('scoredMoves', scoredMoves[randomIndex], 'score', score);
+            return scoredMoves[randomIndex].move;
+        }
+    }
 }
