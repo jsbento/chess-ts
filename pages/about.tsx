@@ -39,7 +39,7 @@ const About: NextPage = () => {
                     I decided to go with a simple-ish minimax engine based on PeSTO (Piece-Square Table Only) evaluation.
                     Each piece is tied to set of a values for squares on the board; these values are essentially measures
                     of how good it is for that piece to stand there. The sum of that value across all pieces for a side
-                    gives a square for that side. The difference of these scores is the position's evaluation score - this
+                    gives a square for that side. The difference of these scores is the position&apos;s evaluation score - this
                     is what minimax algorithm uses to make its decisions.
                 </p>
             </div>

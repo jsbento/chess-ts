@@ -18,6 +18,21 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Engine
 
 const flipTurn = (turn: string): string => turn == 'w' ? 'b' : 'w';
 
+const countMaterial = (board: (BoardSquare | null)[][]): { wMaterial: number, bMaterial: number } => {
+    let wMaterial = 0;
+    let bMaterial = 0;
+    for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+            const piece = board[i][j];
+            if (piece && piece.color == 'w')
+                wMaterial += PieceValues[piece.type];
+            else if (piece && piece.color == 'b')
+                bMaterial += PieceValues[piece.type];
+        }
+    }
+    return { wMaterial, bMaterial };
+}
+
 // https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
 const evaluate = (board: (BoardSquare | null)[][], tables: {mgTable: EvalTable, egTable: EvalTable}, turn: string): number => {
     const { mgTable, egTable } = tables;
@@ -62,17 +77,35 @@ const minimax = (fen: string, depth: number, tables: {mgTable: EvalTable, egTabl
         const chess = new Chess(fen);
         const score = evaluate(chess.board(), tables, chess.turn());
         const moves = chess.moves({ verbose: true });
+
         const scoredMoves: {moveScore: number, move: ShortMove}[] = [];
         for (const move of moves) {
+            const captureWeight = move.captured ? 0.1 : 0;
+            let checkWeight = 0;
+            const initialMaterial = countMaterial(chess.board());
             chess.move(move);
-            scoredMoves.push({moveScore: evaluate(chess.board(), tables, chess.turn()), move});
+            const materialCount = countMaterial(chess.board());
+            let materialWeight = 0;
+            const wMaterialDiff = materialCount.wMaterial - initialMaterial.wMaterial;
+            const bMaterialDiff = materialCount.bMaterial - initialMaterial.bMaterial;
+            if (chess.turn() == 'w')
+                materialWeight = (wMaterialDiff - bMaterialDiff)/(wMaterialDiff + bMaterialDiff);
+            else
+                materialWeight = (bMaterialDiff - wMaterialDiff)/(bMaterialDiff + wMaterialDiff);
+
+            if (chess.in_check()) {
+                checkWeight = 0.2;
+            } else if (chess.in_checkmate()) {
+                scoredMoves.push({ moveScore: -1000000, move: move });
+            } else {
+                scoredMoves.push({moveScore: (1 + checkWeight + captureWeight + materialWeight) * evaluate(chess.board(), tables, chess.turn()), move});
+            }
             chess.reset();
         }
-        const bestMoves = scoredMoves.filter(move => move.moveScore >= Math.abs(score));
+        const bestMoves = scoredMoves.filter(move => move.moveScore >= score);
         if (bestMoves.length > 0) {
-            const randomIndex = Math.floor(Math.random() * bestMoves.length);
-            console.log('bestMoves', bestMoves[randomIndex], 'score', score);
-            return bestMoves[randomIndex].move;
+            console.log('bestMoves', bestMoves[0], 'score', score);
+            return bestMoves[0].move;
         } else {
             const randomIndex = Math.floor(Math.random() * scoredMoves.length);
             console.log('scoredMoves', scoredMoves[randomIndex], 'score', score);
