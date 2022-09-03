@@ -6,6 +6,7 @@ import { EngineResponse } from "../../../types/api/Server";
 import { BoardSquare } from "../../../types/chess/Board";
 import { EvalTable } from "../../../types/engine/Evaluation";
 import { getTables, initEGTable, initMGTable } from "../../../utils/constants/Engine";
+import { flipTurn } from "../../../utils/engine/Engine";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<EngineResponse>) {
     const { fen } = req.body;
@@ -15,8 +16,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Engine
     const move = minimax(fen, 4, tables);
     res.status(200).json({ move: move! });
 }
-
-const flipTurn = (turn: string): string => turn == 'w' ? 'b' : 'w';
 
 const countMaterial = (board: (BoardSquare | null)[][]): { wMaterial: number, bMaterial: number } => {
     let wMaterial = 0;

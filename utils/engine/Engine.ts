@@ -13,3 +13,5 @@ export const getEngineMove = async (fen: string) => {
     .catch(err => console.log(err));
     return move;
 }
+
+export const flipTurn = (turn: string) => turn === "w" ? "b" : "w";
