@@ -1,35 +1,39 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Chess, ShortMove, Move } from "chess.js";
-import { PieceValues } from "../../../utils/constants/Chess";
 import * as PieceSquareValues from "../../../utils/constants/Engine";
 import { EngineResponse } from "../../../types/api/Server";
 import { BoardSquare } from "../../../types/chess/Board";
 import { EvalTable } from "../../../types/engine/Evaluation";
 import { getTables, initEGTable, initMGTable } from "../../../utils/constants/Engine";
-import { flipTurn } from "../../../utils/engine/Engine";
+import { flipTurn, countMaterial } from "../../../utils/engine/Engine";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<EngineResponse>) {
-    const { fen } = req.body;
+    const { fen, engineDepth } = req.body;
     initMGTable();
     initEGTable();
     const tables = getTables();
-    const move = minimax(fen, 4, tables);
-    res.status(200).json({ move: move! });
+    const move = findEngineMove(fen, tables, engineDepth);
+    if (move) {
+        res.status(200).json({ move });
+    } else {
+        res.status(400).json({ move: null, error: "No move found" });
+    }
 }
 
-const countMaterial = (board: (BoardSquare | null)[][]): { wMaterial: number, bMaterial: number } => {
-    let wMaterial = 0;
-    let bMaterial = 0;
-    for (let i = 0; i < 8; i++) {
-        for (let j = 0; j < 8; j++) {
-            const piece = board[i][j];
-            if (piece && piece.color == 'w')
-                wMaterial += PieceValues[piece.type];
-            else if (piece && piece.color == 'b')
-                bMaterial += PieceValues[piece.type];
+const findEngineMove = (fen: string, tables: {mgTable: EvalTable, egTable: EvalTable}, engineDepth: number): ShortMove | null => {
+    const chess = new Chess(fen);
+    const moves = chess.moves({ verbose: true });
+    let bestMove: ShortMove | null = null;
+    let bestScore = -Infinity;
+    for (const move of moves) {
+        chess.move(move);
+        const score = negamax(chess.fen(), engineDepth, tables);
+        chess.reset();
+        if (score > bestScore) {
+            bestMove = move;
         }
     }
-    return { wMaterial, bMaterial };
+    return bestMove;
 }
 
 // https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
@@ -67,48 +71,16 @@ const evaluate = (board: (BoardSquare | null)[][], tables: {mgTable: EvalTable, 
     return (mgScore * mgPhase + egScore * egPhase) / 24;
 }
 
-// For each move, evalute position and return the highest scoring move
-const minimax = (fen: string, depth: number, tables: {mgTable: EvalTable, egTable: EvalTable}): ShortMove | undefined => {
-    if (depth == 0)
-        return undefined;
-    else {
-        // Scores by checks/captures too
-        const chess = new Chess(fen);
-        const score = evaluate(chess.board(), tables, chess.turn());
-        const moves = chess.moves({ verbose: true });
-
-        const scoredMoves: {moveScore: number, move: ShortMove}[] = [];
-        for (const move of moves) {
-            const captureWeight = move.captured ? 0.1 : 0;
-            let checkWeight = 0;
-            const initialMaterial = countMaterial(chess.board());
-            chess.move(move);
-            const materialCount = countMaterial(chess.board());
-            let materialWeight = 0;
-            const wMaterialDiff = materialCount.wMaterial - initialMaterial.wMaterial;
-            const bMaterialDiff = materialCount.bMaterial - initialMaterial.bMaterial;
-            if (chess.turn() == 'w')
-                materialWeight = (wMaterialDiff - bMaterialDiff)/(wMaterialDiff + bMaterialDiff);
-            else
-                materialWeight = (bMaterialDiff - wMaterialDiff)/(bMaterialDiff + wMaterialDiff);
-
-            if (chess.in_check()) {
-                checkWeight = 0.2;
-            } else if (chess.in_checkmate()) {
-                scoredMoves.push({ moveScore: -1000000, move: move });
-            } else {
-                scoredMoves.push({moveScore: (1 + checkWeight + captureWeight + materialWeight) * evaluate(chess.board(), tables, chess.turn()), move});
-            }
-            chess.reset();
-        }
-        const bestMoves = scoredMoves.filter(move => move.moveScore >= score);
-        if (bestMoves.length > 0) {
-            console.log('bestMoves', bestMoves[0], 'score', score);
-            return bestMoves[0].move;
-        } else {
-            const randomIndex = Math.floor(Math.random() * scoredMoves.length);
-            console.log('scoredMoves', scoredMoves[randomIndex], 'score', score);
-            return scoredMoves[randomIndex].move;
-        }
+const negamax = (fen: string, depth: number, tables: {mgTable: EvalTable, egTable: EvalTable}): number => {
+    const chess = new Chess(fen);
+    if (depth == 0) return evaluate(chess.board(), tables, chess.turn());
+    let max = -Infinity;
+    const moves = chess.moves({ verbose: true });
+    for (const move of moves) {
+        chess.move(move);
+        const score = -negamax(chess.fen(), depth - 1, tables);
+        chess.reset();
+        max = Math.max(max, score);
     }
+    return max;
 }

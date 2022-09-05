@@ -16,7 +16,7 @@ const Board: React.FC<{children: ReactNode}> = ({children}) => {
     const dispatch = useDispatch();
 
     const { board, promotion, moves, turn, gameStatus } = useSelector((state: AppState) => state.gameState);
-    const { playerWhite, useAI } = useSelector((state: AppState) => state.settings);
+    const { playerWhite, useAI, engineDepth } = useSelector((state: AppState) => state.settings);
     const [charBoard, setCharBoard] = useState<string[]>([]);
 
     const _updatePromotion = useCallback((promotion: Promotion | null) => dispatch(Actions.setPromotion(promotion)), [dispatch]);
@@ -54,7 +54,7 @@ const Board: React.FC<{children: ReactNode}> = ({children}) => {
     useEffect(() => {
         const getMove = async () => {
             if (useAI && !gameStatus && (playerWhite && turn === "b" || !playerWhite && turn === "w")) {
-                const engineMove = await getEngineMove(chess.fen());
+                const engineMove = await getEngineMove(chess.fen(), engineDepth);
                 move(engineMove.from, engineMove.to, engineMove.promotion);
                 _setState({
                     board: chess.board(),
