@@ -30,6 +30,7 @@ const findEngineMove = (fen: string, tables: {mgTable: EvalTable, egTable: EvalT
         const score = negamax(chess.fen(), engineDepth, tables);
         chess.reset();
         if (score > bestScore) {
+            bestScore = score;
             bestMove = move;
         }
     }
@@ -77,8 +78,16 @@ const negamax = (fen: string, depth: number, tables: {mgTable: EvalTable, egTabl
     let max = -Infinity;
     const moves = chess.moves({ verbose: true });
     for (const move of moves) {
+        let factor = 1;
+
         chess.move(move);
-        const score = -negamax(chess.fen(), depth - 1, tables);
+
+        if (move.captured) factor += 0.1;
+        if (move.promotion) factor += 0.2;
+        if (chess.in_check()) factor += 0.3;
+        if (chess.in_checkmate()) factor += 2;
+        const score = -factor * negamax(chess.fen(), depth - 1, tables);
+        
         chess.reset();
         max = Math.max(max, score);
     }
