@@ -41,13 +41,13 @@ const About: NextPage = () => {
                         Each piece is tied to set of a values for squares on the board; these values are essentially measures
                         of how good it is for that piece to stand there. The sum of that value across all pieces for a side
                         gives a square for that side. The difference of these scores is the position&apos;s evaluation score - this
-                        is what negamax algorithm uses to find the "best" moves.
+                        is what negamax algorithm uses to find the &quot;best&quot; moves.
                     </p>
                 </div>
                 <div className="mt-5">
                     <h2 className="text-center font-semibold text-xl">Chess.js</h2>
                     <p>
-                        The chess.js package is used to keep track of legal moves in a position, promotions, and the game's state. As
+                        The chess.js package is used to keep track of legal moves in a position, promotions, and the game&apos;s state. As
                         mentioned previously, this is the what the UI uses to display the board. Using this package eliminated the need
                         to manually do move validation, check handling, and game state checks. In turn, I was able to focus on the
                         engine aspect of things moreso then the nitty-gritty details of chess.
