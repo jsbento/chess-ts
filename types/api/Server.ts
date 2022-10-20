@@ -1,5 +1,6 @@
-import { Move } from "chess.js";
+import { ShortMove } from "chess.js";
 
 export type EngineResponse = {
-    move: Move;
+    move: ShortMove | null;
+    error?: string;
 }

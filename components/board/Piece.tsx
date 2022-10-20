@@ -19,7 +19,7 @@ const Piece: React.FC<Piece> = ({ type, position }) => {
     });
 
     return (
-        <div className="w-100% h-100%" ref={drag}>
+        <div className="flex w-100% h-100% justify-center" ref={drag}>
             <DragPreviewImage connect={preview} src={PieceImageMap[type]} />
             <Image
                 src={PieceImageMap[type]}
