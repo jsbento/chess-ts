@@ -9,11 +9,11 @@ import { chess } from "../../utils/constants/Chess";
 const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
     const dispatch = useDispatch();
 
-    const _setState = useCallback((newState: GameState) => dispatch(Actions.setState(newState)), [dispatch]);
+    const _setState = useCallback(( newState: GameState ) => dispatch( Actions.setState( newState )), [ dispatch ]);
 
     const onReset = () => {
         chess.reset();
-        _setState(initialState);
+        _setState( initialState );
     }
 
     return (
@@ -27,7 +27,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
                 </button>
                 <a className="font-semibold bg-slate-400 rounded-md w-fit px-3 text-center pb-1"
                     download="chess_pgn.txt"
-                    href={`data:text/plain;charset=utf-8,${encodeURIComponent(chess.pgn())}`}
+                    href={`data:text/plain;charset=utf-8,${encodeURIComponent( chess.pgn())}`}
                 >
                     Download PGN
                 </a>

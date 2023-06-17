@@ -5,10 +5,10 @@ const FileUploader = () => {
     const fileInput = useRef<HTMLFormElement | null>( null );
     const [ dragging, setDragging ] = useState( false );
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
         e.preventDefault();
         e.stopPropagation();
-        const file = (e.target as HTMLFormElement).files[0];
+        const file = ( e.target as HTMLFormElement ).files[0];
         console.log( file );
     }
 
