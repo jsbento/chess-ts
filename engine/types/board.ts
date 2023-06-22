@@ -7,7 +7,13 @@ export class EngineBoard {
   fiftyMove: number
   ply: number
   hisPly: number
-  history: number[]
+  history: {
+    posKey: number
+    move: number
+    fiftyMove: number
+    enPas: number
+    castlePerm: number
+  }[]
   enPas: number
   castlePerm: number
   material: number[]
@@ -132,6 +138,22 @@ export class EngineBoard {
     finalKey ^= CastleKeys[this.castlePerm]
 
     return finalKey
+  }
+
+  hashPce( pce: number, sq: number ): void {
+    this.posKey ^= PieceKeys[( pce * 120 ) + sq]
+  }
+
+  hashCastle(): void {
+    this.posKey ^= CastleKeys[this.castlePerm]
+  }
+
+  hashSide(): void {
+    this.posKey ^= this.side
+  }
+
+  hashEnPas(): void {
+    this.posKey ^= PieceKeys[this.enPas]
   }
 
   printBoard(): void {
@@ -348,7 +370,7 @@ export class EngineBoard {
     pce = PIECES.BP
     for( pceNum = 0; pceNum < this.pceNum[pce]; pceNum++ ) {
       sq = this.pList[PceIndex( pce, pceNum )]
-      score -= PAWN_TABLE[Mirror64( Sq64( sq ) )]
+      score -= PAWN_TABLE[Mirror64( Sq64( sq ))]
     }
 
     pce = PIECES.WN
@@ -360,7 +382,7 @@ export class EngineBoard {
     pce = PIECES.BN
     for( pceNum = 0; pceNum < this.pceNum[pce]; pceNum++ ) {
       sq = this.pList[PceIndex( pce, pceNum )]
-      score -= KNIGHT_TABLE[Mirror64( Sq64( sq ) )]
+      score -= KNIGHT_TABLE[Mirror64( Sq64( sq ))]
     }
 
     pce = PIECES.WB
@@ -372,7 +394,7 @@ export class EngineBoard {
     pce = PIECES.BB
     for( pceNum = 0; pceNum < this.pceNum[pce]; pceNum++ ) {
       sq = this.pList[PceIndex( pce, pceNum )]
-      score -= BISHOP_TABLE[Mirror64( Sq64( sq ) )]
+      score -= BISHOP_TABLE[Mirror64( Sq64( sq ))]
     }
 
     pce = PIECES.WR
@@ -384,7 +406,7 @@ export class EngineBoard {
     pce = PIECES.BR
     for( pceNum = 0; pceNum < this.pceNum[pce]; pceNum++ ) {
       sq = this.pList[PceIndex( pce, pceNum )]
-      score -= ROOK_TABLE[Mirror64( Sq64( sq ) )]
+      score -= ROOK_TABLE[Mirror64( Sq64( sq ))]
     }
 
     pce = PIECES.WQ
@@ -396,7 +418,7 @@ export class EngineBoard {
     pce = PIECES.BQ
     for( pceNum = 0; pceNum < this.pceNum[pce]; pceNum++ ) {
       sq = this.pList[PceIndex( pce, pceNum )]
-      score -= ROOK_TABLE[Mirror64( Sq64( sq ) )]
+      score -= ROOK_TABLE[Mirror64( Sq64( sq ))]
     }
 
     if( this.pceNum[PIECES.WB] >= 2 ) {
@@ -411,6 +433,202 @@ export class EngineBoard {
       return score
     } else {
       return -score
+    }
+  }
+
+  clearPiece( sq: number ): void {
+    const pce: number = this.pieces[sq]
+    const color: number = PIECE_COL[pce]
+    let tPceNum: number = -1
+
+    this.hashPce( pce, sq)
+    this.pieces[sq] = PIECES.EMPTY
+    this.material[color] -= PIECE_VAL[pce]
+
+    for( let i = 0; i < this.pceNum[pce]; i++ ) {
+      if( this.pList[PceIndex( pce, i )] === sq ) {
+        tPceNum = i
+        break
+      }
+    }
+
+    this.pceNum[pce]--
+    this.pList[PceIndex( pce, tPceNum )] = this.pList[PceIndex( pce, this.pceNum[pce] )]
+  }
+
+  addPiece( pce: number, sq: number ): void {
+    const color: number = PIECE_COL[pce]
+
+    this.hashPce( pce, sq )
+    this.pieces[sq] = pce
+    this.material[color] += PIECE_VAL[pce]
+    this.pList[PceIndex( pce, this.pceNum[pce] )] = sq
+    this.pceNum[pce]++
+  }
+
+  movePiece( from: number, to: number ): void {
+    const pce = this.pieces[from]
+    this.hashPce( pce, from )
+    this.pieces[from] = PIECES.EMPTY
+    this.hashPce( pce, to )
+    this.pieces[to] = pce
+
+    for( let i = 0; i < this.pceNum[pce]; i++ ) {
+      if( this.pList[PceIndex( pce, i )] === from ) {
+        this.pList[PceIndex( pce, i )] = to
+        break
+      }
+    }
+  }
+
+  makeMove( move: number ): boolean {
+    const from: number = FromSq( move )
+    const to: number = ToSq( move )
+    const side: number = this.side
+
+    this.history[this.hisPly].posKey = this.posKey
+
+    if(( move & MFLAGEP ) !== 0 ) {
+      if( side === COLORS.WHITE ) {
+        this.clearPiece( to - 10 )
+      } else {
+        this.clearPiece( to + 10 )
+      }
+    } else if(( move & MFLAGCA ) != 0 ) {
+      switch( to ) {
+        case SQUARES.C1:
+          this.movePiece( SQUARES.A1, SQUARES.D1 )
+          break
+          case SQUARES.C8:
+            this.movePiece( SQUARES.A8, SQUARES.D8 )
+            break
+          case SQUARES.G1:
+            this.movePiece( SQUARES.H1, SQUARES.F1 )
+            break
+          case SQUARES.G8:
+            this.movePiece( SQUARES.H8, SQUARES.F8 )
+            break
+          default:
+            break
+      }
+    }
+
+    if( this.enPas !== SQUARES.NO_SQ ) {
+      this.hashEnPas()
+    }
+    this.hashCastle()
+
+    this.history[this.hisPly].move = move
+    this.history[this.hisPly].fiftyMove = this.fiftyMove
+    this.history[this.hisPly].enPas = this.enPas
+    this.history[this.hisPly].castlePerm = this.castlePerm
+
+    this.castlePerm &= CastlePerm[from]
+    this.castlePerm &= CastlePerm[to]
+    this.enPas = SQUARES.NO_SQ
+
+    this.hashCastle()
+
+    const captured: number = Captured( move )
+    this.fiftyMove++
+
+    if( captured !== PIECES.EMPTY ) {
+      this.clearPiece( to )
+      this.fiftyMove = 0
+    }
+    this.hisPly++
+    this.ply++
+
+    if( PIECE_PAWN[this.pieces[from]] === true ) {
+      this.fiftyMove = 0
+      if(( move & MFLAGPS ) !== 0 ) {
+        if( side === COLORS.WHITE ) {
+          this.enPas = from + 10
+        } else {
+          this.enPas = from - 10
+        }
+        this.hashEnPas()
+      }
+    }
+
+    this.movePiece( from, to )
+    
+    const promoted: number = Promoted( move )
+    if( promoted !== PIECES.EMPTY ) {
+      this.clearPiece( to )
+      this.addPiece( to, promoted )
+    }
+
+    this.side ^= 1
+    this.hashSide()
+
+    if( this.sqAttacked( this.pList[PceIndex( PIECES.WK, 0 )], this.side ) === true ) {
+      this.takeMove()
+      return false
+    }
+
+    return true
+  }
+
+  takeMove(): void {
+    this.hisPly--
+    this.ply--
+
+    const move: number = this.history[this.hisPly].move
+    const from: number = FromSq( move )
+    const to: number = ToSq( move )
+
+    if( this.enPas !== SQUARES.NO_SQ ) {
+      this.hashEnPas()
+    }
+
+    this.castlePerm = this.history[this.hisPly].castlePerm
+    this.fiftyMove = this.history[this.hisPly].fiftyMove
+    this.enPas = this.history[this.hisPly].enPas
+
+    if( this.enPas !== SQUARES.NO_SQ ) {
+      this.hashEnPas()
+    }
+
+    this.hashCastle()
+
+    this.side ^= 1
+    this.hashSide()
+
+    if(( MFLAGEP & move ) !== 0 ) {
+      if( this.side === COLORS.WHITE ) {
+        this.addPiece( PIECES.BP, to - 10 )
+      } else {
+        this.addPiece( PIECES.WP, to + 10 )
+      }
+    } else if(( MFLAGCA & move ) !== 0 ) {
+      switch( to ) {
+        case SQUARES.C1:
+          this.movePiece( SQUARES.D1, SQUARES.A1 )
+          break
+        case SQUARES.C8:
+          this.movePiece( SQUARES.D8, SQUARES.A8 )
+          break
+        case SQUARES.G1:
+          this.movePiece( SQUARES.F1, SQUARES.H1 )
+          break
+        case SQUARES.G8:
+          this.movePiece( SQUARES.F8, SQUARES.H8 )
+          break
+        default:
+          break
+      }
+    }
+
+    this.movePiece( from, to )
+    const captured: number = Captured( move )
+    if( captured !== PIECES.EMPTY ) {
+      this.addPiece( captured, to )
+    }
+    const promoted: number = Promoted( move )
+    if( promoted !== PIECES.EMPTY ) {
+      this.clearPiece( from )
+      this.addPiece(( PIECE_COL[promoted] === COLORS.WHITE ? PIECES.WP : PIECES.BP ), from )
     }
   }
 }
