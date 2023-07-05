@@ -1,4 +1,4 @@
-const MvvLvaValue = [ 0, 100, 200, 300, 400, 500, 600, 100, 200, 300, 400, 500, 600 ]
+//const MvvLvaValue = [ 0, 100, 200, 300, 400, 500, 600, 100, 200, 300, 400, 500, 600 ]
 const MvvLvaScores = new Array( 14 * 14 )
 
 const InitMvvLva = (): void => {
@@ -6,7 +6,7 @@ const InitMvvLva = (): void => {
 
   for( attacker = PIECES.wP; attacker <= PIECES.bK; ++attacker ) {
     for( victim = PIECES.wP; victim <= PIECES.bK; ++victim ) {
-      MvvLvaScores[victim * 14 + attacker] = MvvLvaValue[victim] + 6 - ( MvvLvaValue[attacker] / 100 )
+      MvvLvaScores[victim * 14 + attacker] = MvvLvaValues[victim] + 6 - ( MvvLvaValues[attacker] / 100 )
     }
   }
 }
@@ -29,9 +29,9 @@ const moveExists = ( board: GameBoard, move: number ): boolean => {
   return false
 }
 
-const MOVE = ( from: number, to: number, captured: number, promoted: number, flag: number ): number => {
-  return from | ( to << 7 ) | ( captured << 14 ) | ( promoted << 20 ) | flag
-}
+// const MOVE = ( from: number, to: number, captured: number, promoted: number, flag: number ): number => {
+//   return from | ( to << 7 ) | ( captured << 14 ) | ( promoted << 20 ) | flag
+// }
 
 const addCaptureMove = ( board: GameBoard, move: number ): void => {
   board.moveList[board.moveListStart[board.ply + 1]] = move
