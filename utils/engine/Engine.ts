@@ -1,20 +1,5 @@
-import { Move } from "chess.js"
 import { BoardSquare } from "../../types/chess/Board"
 import { PieceValues } from "../constants/Chess"
-
-export const getEngineMove = async ( fen: string, engineDepth: number ) => {
-  const move: Move = await fetch( `/api/engine/get_move`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ fen, engineDepth }),
-  })
-  .then( res => res.json())
-  .then( data => data.move )
-  .catch( err => console.log( err ))
-  return move
-}
 
 export const flipTurn = ( turn: string ) => turn === "w" ? "b" : "w"
 

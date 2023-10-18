@@ -5,7 +5,7 @@ import Logo from "./Logo"
 const NavBar: React.FC = () => {
   return (
     <div className="sticky w-screen">
-      <ul className="flex justify-end px-8 py-3 gap-12 items-center bg-slate-400 text-black border-black">
+      <ul className="flex justify-end px-8 py-3 gap-12 items-center bg-gray-100 text-black border-b-2 border-black">
         <li className="mr-auto">
           <Logo />
         </li>

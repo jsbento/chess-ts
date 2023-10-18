@@ -10,7 +10,6 @@ import * as Actions from "../../state/actions/GameState"
 import BoardSquare from "./BoardSquare"
 import { ShortMove } from "chess.js"
 import { Promotion } from "../../types/chess/Piece"
-import { getEngineMove } from "../../utils/engine/Engine"
 
 const Board: React.FC<{children: ReactNode}> = ({ children }) => {
   const dispatch = useDispatch()
@@ -54,7 +53,8 @@ const Board: React.FC<{children: ReactNode}> = ({ children }) => {
   useEffect(() => {
     const getMove = async () => {
       if ( useAI && !gameStatus && ( playerWhite && turn === "b" || !playerWhite && turn === "w" )) {
-        const engineMove = await getEngineMove( chess.fen(), engineDepth )
+        const randIdx = Math.floor( Math.random() * chess.moves().length )
+        const engineMove = chess.moves({ verbose: true })[randIdx]
         move( engineMove.from, engineMove.to, engineMove.promotion )
         _setState({
           board: chess.board(),

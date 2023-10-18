@@ -22,10 +22,10 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
         <p className="font-bold mb-5">
           {result}
         </p>
-        <button className="font-semibold bg-slate-400 rounded-md w-fit px-3 text-center pb-1 mb-5" onClick={() => onReset()}>
+        <button className="font-semibold bg-gray-300 rounded-md w-fit px-3 text-center py-1 mb-5" onClick={() => onReset()}>
           Reset
         </button>
-        <a className="font-semibold bg-slate-400 rounded-md w-fit px-3 text-center pb-1"
+        <a className="font-semibold bg-gray-300 rounded-md w-fit px-3 text-center py-1"
           download="chess_pgn.txt"
           href={`data:text/plain;charset=utf-8,${encodeURIComponent( chess.pgn())}`}
         >
