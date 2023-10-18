@@ -119,7 +119,6 @@ export const LOOP_SLIDE_PIECE: number[] = [ PIECES.WB, PIECES.WR, PIECES.WQ, 0, 
 export const LOOP_SLIDE_PIECE_INDEX: number[] = [ 0, 4 ]
 
 export const PieceKeys = new Array(14 * 120)
-let SideKey: number
 export const CastleKeys = new Array(16)
 
 export const Sq120ToSq64: number[] = new Array( BRD_SQ_NUM )
