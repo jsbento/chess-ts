@@ -3,13 +3,13 @@ import Image from "next/image";
 import { PromotionProps } from "../../types/components/Board";
 import { PieceImageMap } from "../../utils/constants/PieceImages";
 
-const PromotionSquare: React.FC<PromotionProps> = ({promotion, move}) => {
-    const promotionPieces: ('q' | 'b' | 'r' | 'n')[] = ['q', 'r', 'b', 'n'];
+const PromotionSquare: React.FC<PromotionProps> = ({ promotion, move }) => {
+    const promotionPieces: ( 'q' | 'b' | 'r' | 'n' )[] = [ 'q', 'r', 'b', 'n' ];
 
     return (
         <div className="grid grid-cols-2 grid-rows-2">
-            {promotionPieces.map((piece, idx) => (
-                <div className={`box-${idx+1}`} key={idx} onClick={() => move(promotion.from, promotion.to, piece)}>
+            {promotionPieces.map(( piece, idx ) => (
+                <div className={`box-${idx+1}`} key={idx} onClick={() => move( promotion.from, promotion.to, piece )}>
                     <Image
                         style={{ cursor: "pointer" }}
                         src={PieceImageMap[promotion.color === "w" ? piece.toUpperCase() : piece]}
