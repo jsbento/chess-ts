@@ -1,3 +1,3 @@
 export type ResultCardProps = {
-    result: string;
+  result: string;
 }

@@ -1,7 +1,7 @@
-import { Square, PieceType } from "chess.js";
+import { Square, PieceType } from "chess.js"
 
 export type BoardSquare = {
-    type: PieceType;
-    square: Square;
-    color: "b" | "w";
+  type: PieceType;
+  square: Square;
+  color: "b" | "w";
 } | null;
