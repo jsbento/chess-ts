@@ -1,17 +1,17 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { AppState } from "../types/state/AppState";
-import { chess } from "../utils/constants/Chess";
+import React from "react"
+import { useSelector } from "react-redux"
+import { AppState } from "../types/state/AppState"
+import { chess } from "../utils/constants/Chess"
 
 const MovesList: React.FC = () => {
-    const moves = useSelector(( state: AppState ) => state.gameState.moves );
+    const moves = useSelector(( state: AppState ) => state.gameState.moves )
 
     const makeRows = () => {
-        const rows = [];
-        let movesNum = 1;
+        const rows = []
+        let movesNum = 1
         for ( let i = 0; i < moves.length; i += 2 ) {
-            rows.push({ movesNum, wMove: moves[i], bMove: moves[i + 1] ? moves[i + 1] : null });
-            movesNum++;
+            rows.push({ movesNum, wMove: moves[i], bMove: moves[i + 1] ? moves[i + 1] : null })
+            movesNum++
         }
 
         return (
@@ -24,7 +24,7 @@ const MovesList: React.FC = () => {
                     </tr>
                 ))}
             </tbody>
-        );
+        )
     }
 
     return (
@@ -50,7 +50,7 @@ const MovesList: React.FC = () => {
                 </a>
             </div>
         </div>
-    );
+    )
 }
 
-export default MovesList;
+export default MovesList

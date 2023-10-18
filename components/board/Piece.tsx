@@ -1,14 +1,14 @@
-import React from "react";
-import Image from "next/image";
-import { useDrag, DragSourceMonitor, DragPreviewImage } from "react-dnd";
-import { useSelector } from "react-redux";
-import { AppState } from "../../types/state/AppState";
-import { Piece } from "../../types/chess/Piece";
-import { PieceImageMap } from "../../utils/constants/PieceImages";
-import { indexToSquare } from "../../utils/pieces/PieceUtils";
+import React from "react"
+import Image from "next/image"
+import { useDrag, DragSourceMonitor, DragPreviewImage } from "react-dnd"
+import { useSelector } from "react-redux"
+import { AppState } from "../../types/state/AppState"
+import { Piece } from "../../types/chess/Piece"
+import { PieceImageMap } from "../../utils/constants/PieceImages"
+import { indexToSquare } from "../../utils/pieces/PieceUtils"
 
 const Piece: React.FC<Piece> = ({ type, position }) => {
-    const promotion = useSelector(( state: AppState ) => state.gameState.promotion );
+    const promotion = useSelector(( state: AppState ) => state.gameState.promotion )
 
     const [{ isDragging }, drag, preview ] = useDrag({
         type: "piece",
@@ -16,7 +16,7 @@ const Piece: React.FC<Piece> = ({ type, position }) => {
         collect: ( monitor: DragSourceMonitor ) => ({
             isDragging: !!monitor.isDragging(),
         }),
-    });
+    })
 
     return (
         <div className="flex w-100% h-100% justify-center" ref={drag}>
@@ -30,7 +30,7 @@ const Piece: React.FC<Piece> = ({ type, position }) => {
                 height={75}
             />
         </div>
-    );
+    )
 }
 
-export default Piece;
+export default Piece

@@ -1,16 +1,16 @@
-import React, { useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { AppState } from "../../types/state/AppState";
-import * as Actions from "../../state/actions/SettingsState";
+import React, { useCallback } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { AppState } from "../../types/state/AppState"
+import * as Actions from "../../state/actions/SettingsState"
 
 const SettingsCard: React.FC = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const { playerWhite, useAI, engineDepth } = useSelector(( state: AppState ) => state.settings );
+    const { playerWhite, useAI, engineDepth } = useSelector(( state: AppState ) => state.settings )
 
-    const _updatePlayerWhite = useCallback(( playerWhite: boolean ) => dispatch( Actions.setPlayerWhite( playerWhite )), [ dispatch ]);
-    const _updateUseAI = useCallback(( useAI: boolean ) => dispatch( Actions.setUseAI( useAI )), [ dispatch ]);
-    const _setEngineDepth = useCallback(( engineDepth: number ) => dispatch( Actions.setEngineDepth( engineDepth )), [ dispatch ]);
+    const _updatePlayerWhite = useCallback(( playerWhite: boolean ) => dispatch( Actions.setPlayerWhite( playerWhite )), [ dispatch ])
+    const _updateUseAI = useCallback(( useAI: boolean ) => dispatch( Actions.setUseAI( useAI )), [ dispatch ])
+    const _setEngineDepth = useCallback(( engineDepth: number ) => dispatch( Actions.setEngineDepth( engineDepth )), [ dispatch ])
 
     return (
         <div className="w-[200px] h-[500px] border border-1 border-black items-center text-center">
@@ -42,7 +42,7 @@ const SettingsCard: React.FC = () => {
                 />
             </div>
         </div>
-    );
+    )
 }
 
-export default SettingsCard;
+export default SettingsCard

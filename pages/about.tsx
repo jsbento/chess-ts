@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import { NextPage } from "next"
 
 const About: NextPage = () => {
     return (
@@ -55,7 +55,7 @@ const About: NextPage = () => {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default About;
+export default About

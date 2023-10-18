@@ -1,19 +1,19 @@
-import React, { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { ResultCardProps } from "../../types/components/ResultCard";
-import { GameState } from "../../types/state/GameState";
-import { initialState } from "../../state/reducers/GameState";
-import * as Actions from "../../state/actions/GameState";
-import { chess } from "../../utils/constants/Chess";
+import React, { useCallback } from "react"
+import { useDispatch } from "react-redux"
+import { ResultCardProps } from "../../types/components/ResultCard"
+import { GameState } from "../../types/state/GameState"
+import { initialState } from "../../state/reducers/GameState"
+import * as Actions from "../../state/actions/GameState"
+import { chess } from "../../utils/constants/Chess"
 
 const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
-    const _setState = useCallback(( newState: GameState ) => dispatch( Actions.setState( newState )), [ dispatch ]);
+    const _setState = useCallback(( newState: GameState ) => dispatch( Actions.setState( newState )), [ dispatch ])
 
     const onReset = () => {
-        chess.reset();
-        _setState( initialState );
+        chess.reset()
+        _setState( initialState )
     }
 
     return (
@@ -33,7 +33,7 @@ const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
                 </a>
             </div>
         </>
-    );
+    )
 }
 
-export default ResultCard;
+export default ResultCard

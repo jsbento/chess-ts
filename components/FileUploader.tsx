@@ -1,48 +1,48 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from "react"
 
 
 const FileUploader = () => {
-    const fileInput = useRef<HTMLFormElement | null>( null );
-    const [ dragging, setDragging ] = useState( false );
+    const fileInput = useRef<HTMLFormElement | null>( null )
+    const [ dragging, setDragging ] = useState( false )
 
     const handleSubmit = ( e: React.FormEvent<HTMLFormElement> ) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const file = ( e.target as HTMLFormElement ).files[0];
-        console.log( file );
+        e.preventDefault()
+        e.stopPropagation()
+        const file = ( e.target as HTMLFormElement ).files[0]
+        console.log( file )
     }
 
     const handleDrag = ( e: React.DragEvent<HTMLFormElement> | React.DragEvent<HTMLDivElement> ) => {
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault()
+        e.stopPropagation()
         if( e.type === "dragenter" || e.type === "dragover" ) {
-            setDragging( true );
+            setDragging( true )
         } else if( e.type === "dragleave" ) {
-            setDragging( false );
+            setDragging( false )
         }
     }
 
     const handleDrop = ( e: React.DragEvent<HTMLDivElement> ) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setDragging( false );
+        e.preventDefault()
+        e.stopPropagation()
+        setDragging( false )
         if( e.dataTransfer.files && e.dataTransfer.files.length > 0 ) {
-            const file = e.dataTransfer.files[0];
-            console.log( file );
+            const file = e.dataTransfer.files[0]
+            console.log( file )
         }
     }
 
     const onChangeFile = ( e: React.ChangeEvent<HTMLInputElement> ) => {
-        e.preventDefault();
+        e.preventDefault()
         if( e.target.files && e.target.files.length > 0 ) {
-            const file = e.target.files[0];
-            console.log( file );
+            const file = e.target.files[0]
+            console.log( file )
         }
     }
 
     const onClick = () => {
         if( fileInput.current ) {
-            fileInput.current.click();
+            fileInput.current.click()
         }
     }
 
@@ -57,7 +57,7 @@ const FileUploader = () => {
             </label>
             { dragging && <div id="drag-file-element" onDragEnter={ handleDrag } onDragOver={ handleDrag } onDragLeave={ handleDrag } onDrop={ handleDrop }></div> }
         </form>
-    );
+    )
 }
 
-export default FileUploader;
+export default FileUploader

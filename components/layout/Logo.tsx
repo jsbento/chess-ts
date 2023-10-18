@@ -1,6 +1,6 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+import React from "react"
+import Image from "next/image"
+import Link from "next/link"
 
 const Logo: React.FC = () => {
     return (
@@ -10,7 +10,7 @@ const Logo: React.FC = () => {
                 <p className="font-bold text-xl">Chess-TS</p>
             </a>
         </Link>
-    );
+    )
 }
 
-export default Logo;
+export default Logo

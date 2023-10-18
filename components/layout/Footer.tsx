@@ -1,5 +1,5 @@
-import React from "react";
-import { GoMarkGithub } from "react-icons/go";
+import React from "react"
+import { GoMarkGithub } from "react-icons/go"
 
 const Footer: React.FC = () => {
     return (
@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
                 </a>
             </div>
         </footer>
-    );
+    )
 }
 
-export default Footer;
+export default Footer

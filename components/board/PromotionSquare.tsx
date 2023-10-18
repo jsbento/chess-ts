@@ -1,10 +1,10 @@
-import React from "react";
-import Image from "next/image";
-import { PromotionProps } from "../../types/components/Board";
-import { PieceImageMap } from "../../utils/constants/PieceImages";
+import React from "react"
+import Image from "next/image"
+import { PromotionProps } from "../../types/components/Board"
+import { PieceImageMap } from "../../utils/constants/PieceImages"
 
 const PromotionSquare: React.FC<PromotionProps> = ({ promotion, move }) => {
-    const promotionPieces: ( 'q' | 'b' | 'r' | 'n' )[] = [ 'q', 'r', 'b', 'n' ];
+    const promotionPieces: ( 'q' | 'b' | 'r' | 'n' )[] = [ 'q', 'r', 'b', 'n' ]
 
     return (
         <div className="grid grid-cols-2 grid-rows-2">
@@ -21,7 +21,7 @@ const PromotionSquare: React.FC<PromotionProps> = ({ promotion, move }) => {
                 </div>
             ))}
         </div>
-    );
+    )
 }
 
-export default PromotionSquare;
+export default PromotionSquare
