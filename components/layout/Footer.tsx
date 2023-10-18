@@ -1,5 +1,5 @@
 import React from "react"
-import { GoMarkGithub } from "react-icons/go"
+import { FaGithub } from "react-icons/fa"
 
 const Footer: React.FC = () => {
     return (
@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
             <div className="flex justify-center items-center">
                 <p className="font-semibold mr-3">Chess-TS developed by Jacob Benton</p>
                 <a href="https://github.com/jsbento/chess-ts">
-                    <GoMarkGithub className="h-6 w-6" />
+                    <FaGithub className="h-6 w-6" />
                 </a>
             </div>
         </footer>
