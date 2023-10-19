@@ -1,5 +1,5 @@
 import { Action } from '../../types/state/AppState'
-import { GameState, ActionTypes } from '../../types/state/GameState'
+import { GameState, GameActions } from '../../types/state/GameState'
 import { chess } from '../../utils/constants/Chess'
 
 export const initialState: GameState = {
@@ -13,19 +13,19 @@ export const initialState: GameState = {
 
 const chessReducer = ( state = initialState, action: Action ): GameState => {
   switch ( action.type ) {
-    case ActionTypes.SET_BOARD:
+    case GameActions.SET_BOARD:
       return boardReducer( state, action )
-    case ActionTypes.SET_GAME_STATUS:
+    case GameActions.SET_GAME_STATUS:
       return gameStatusReducer( state, action )
-    case ActionTypes.SET_TURN:
+    case GameActions.SET_TURN:
       return turnReducer( state, action )
-    case ActionTypes.SET_PROMOTION:
+    case GameActions.SET_PROMOTION:
       return promotionReducer( state, action )
-    case ActionTypes.SET_RESULT:
+    case GameActions.SET_RESULT:
       return resultReducer( state, action )
-    case ActionTypes.SET_STATE:
+    case GameActions.SET_STATE:
       return stateReducer( state, action )
-    case ActionTypes.SET_MOVES:
+    case GameActions.SET_MOVES:
       return movesReducer( state, action )
     default:
       return state

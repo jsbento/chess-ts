@@ -1,5 +1,5 @@
 import { Action } from '../../types/state/AppState'
-import { SettingsState } from '../../types/state/SettingsState'
+import { SettingsState, SettingsActions } from '../../types/state/SettingsState'
 
 export const initialSettings: SettingsState = {
   playerWhite: true,
@@ -9,13 +9,13 @@ export const initialSettings: SettingsState = {
 
 const settingsReducer = ( settings = initialSettings, action: Action ) => {
   switch ( action.type ) {
-    case 'SET_PLAYER_WHITE':
+    case SettingsActions.SET_PLAYER_WHITE:
       return setPlayerWhiteReducer( settings, action )
-    case 'SET_SETTINGS':
+    case SettingsActions.SET_SETTINGS:
       return setSettingsReducer( settings, action )
-    case 'SET_USE_AI':
+    case SettingsActions.SET_USE_AI:
       return setUseAIReducer( settings, action )
-    case 'SET_ENGINE_DEPTH':
+    case SettingsActions.SET_ENGINE_DEPTH:
       return setEngineDepthReducer( settings, action )
     default:
       return settings

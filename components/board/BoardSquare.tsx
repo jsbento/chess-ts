@@ -21,8 +21,14 @@ const BoardSquare: React.FC<BoardSquareProps> = ({ color, piece, position, mover
   return (
     <div key={position} ref={drop} className={`flex items-center justify-center ${color}`}>
       { promotion && promotion.to === indexToSquare( position ) ?
-        <PromotionSquare promotion={promotion} move={movers.move} /> :
-        piece ? <Piece type={piece.type} position={piece.position} /> :
+        <PromotionSquare
+          promotion={promotion}
+          move={movers.move}
+        /> : piece ?
+        <Piece
+          type={piece.type}
+          position={piece.position}
+        /> :
         null
       }
     </div>

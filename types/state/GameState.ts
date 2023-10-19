@@ -10,7 +10,7 @@ export type GameState = {
   moves: string[];
 }
 
-export const ActionTypes = {
+export const GameActions = {
   SET_BOARD: 'SET_BOARD',
   SET_GAME_STATUS: 'SET_GAME_STATUS',
   SET_TURN: 'SET_TURN',

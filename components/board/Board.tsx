@@ -102,7 +102,16 @@ const Board: React.FC<{children: ReactNode}> = ({ children }) => {
           const p = piece === ' ' ? null : { type: piece, position: shiftedIndex }
 
           return (
-            <BoardSquare key={shiftedIndex} color={bgColor} piece={p} position={shiftedIndex} movers={{ handleMove, move }} />
+            <BoardSquare
+              key={shiftedIndex}
+              color={bgColor}
+              piece={p}
+              position={shiftedIndex}
+              movers={{
+                handleMove,
+                move,
+              }}
+            />
           )
         })}
       </div>
@@ -110,13 +119,9 @@ const Board: React.FC<{children: ReactNode}> = ({ children }) => {
   }
 
   const renderRanks = () => {
-    let ranks_ordered: string[]
-    if ( !playerWhite )
-      ranks_ordered = RANKS
-    else
-      ranks_ordered = [ ...RANKS ].reverse()
+    const ranksOrdered = !playerWhite ? RANKS : [ ...RANKS ].reverse()
     
-    return ranks_ordered.map(( rank, index ) => <p key={index} className="h-[12.5%] center-text">{rank}</p> )
+    return ranksOrdered.map(( rank, index ) => <p key={index} className="h-[12.5%] center-text">{rank}</p> )
   }
 
   const renderFiles = () => {

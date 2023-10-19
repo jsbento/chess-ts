@@ -1,9 +1,11 @@
 import { GameState } from './GameState'
 import { SettingsState } from './SettingsState'
+import { UserState } from './users'
 
 export type AppState = {
-  gameState: GameState;
-  settings: SettingsState;
+  gameState: GameState
+  settings: SettingsState
+  user: UserState
 }
 
 export const ActionTypes = {
@@ -19,6 +21,6 @@ export const ActionTypes = {
 }
 
 export type Action = {
-  type: string;
-  payload: any;
+  type: string
+  payload: any
 }
