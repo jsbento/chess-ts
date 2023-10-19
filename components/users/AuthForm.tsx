@@ -5,15 +5,15 @@ import { useDispatch } from 'react-redux'
 import { signIn, signUp } from '@coordinators/users'
 
 const SignInSchema = Yup.object().shape({
-  identifier: Yup.string().trim().required('Username or email is required'),
-  password: Yup.string().trim().required('Password is required'),
+  identifier: Yup.string().trim().required( 'Username or email is required' ),
+  password: Yup.string().trim().required( 'Password is required' ),
 })
 
 const SignUpSchema = Yup.object().shape({
-  username: Yup.string().trim().required('Username is required'),
-  email: Yup.string().trim().email('Invalid email').required('Email is required'),
-  password: Yup.string().trim().required('Password is required'),
-  passwordConfirm: Yup.string().trim().oneOf([Yup.ref('password')], 'Passwords must match').required('Password confirmation is required'),
+  username: Yup.string().trim().required( 'Username is required' ),
+  email: Yup.string().trim().email( 'Invalid email' ).required( 'Email is required' ),
+  password: Yup.string().trim().required( 'Password is required' ),
+  passwordConfirm: Yup.string().trim().oneOf([ Yup.ref( 'password' ) ], 'Passwords must match' ).required( 'Password confirmation is required' ),
 })
 
 const signInValues = {

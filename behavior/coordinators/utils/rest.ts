@@ -17,7 +17,7 @@ export const get = async ( url: string, params: any = undefined ) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-    }
+    },
   })
 }
 
