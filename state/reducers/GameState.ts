@@ -1,12 +1,12 @@
-import { Action } from "../../types/state/AppState"
-import { GameState, ActionTypes } from "../../types/state/GameState"
-import { chess } from "../../utils/constants/Chess"
+import { Action } from '../../types/state/AppState'
+import { GameState, ActionTypes } from '../../types/state/GameState'
+import { chess } from '../../utils/constants/Chess'
 
 export const initialState: GameState = {
   board: chess.board(),
   gameStatus: false,
   result: null,
-  turn: "w",
+  turn: 'w',
   promotion: null,
   moves: [],
 }

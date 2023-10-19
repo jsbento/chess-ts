@@ -1,6 +1,6 @@
-import React from "react"
-import Link from "next/link"
-import Logo from "./Logo"
+import React from 'react'
+import Link from 'next/link'
+import Logo from './Logo'
 
 const NavBar: React.FC = () => {
   return (

@@ -49,6 +49,13 @@
       {
         "skipBlankLines": true
       }
+    ],
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true
+      }
     ]
   }
 }

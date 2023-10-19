@@ -1,7 +1,7 @@
-import React, { useCallback } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { AppState } from "../../types/state/AppState"
-import * as Actions from "../../state/actions/SettingsState"
+import React, { useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { AppState } from '../../types/state/AppState'
+import * as Actions from '../../state/actions/SettingsState'
 
 const SettingsCard: React.FC = () => {
   const dispatch = useDispatch()
@@ -22,7 +22,7 @@ const SettingsCard: React.FC = () => {
         <button className="rounded border px-1 ml-3 mt-1 bg-gray-300 font-semibold"
           onClick={() => _updatePlayerWhite( !playerWhite )}
         >
-          {playerWhite ? "White" : "Black"}
+          {playerWhite ? 'White' : 'Black'}
         </button>
       </div>
       <div className="flex items-center justify-center mt-3">

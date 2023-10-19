@@ -1,21 +1,21 @@
-import React, { ReactNode, useState, useEffect, useCallback } from "react"
-import { chess, getResult, RANK_FILE_MAX } from "../../utils/constants/Chess"
-import { RANKS, FILES } from "../../utils/constants/Board"
-import { DndProvider } from "react-dnd"
-import { HTML5Backend } from "react-dnd-html5-backend"
-import { useSelector, useDispatch } from "react-redux"
-import { AppState } from "../../types/state/AppState"
-import { GameState } from "../../types/state/GameState"
-import * as Actions from "../../state/actions/GameState"
-import BoardSquare from "./BoardSquare"
-import { ShortMove } from "chess.js"
-import { Promotion } from "../../types/chess/Piece"
+import React, { ReactNode, useState, useEffect, useCallback } from 'react'
+import { chess, getResult, RANK_FILE_MAX } from '../../utils/constants/Chess'
+import { RANKS, FILES } from '../../utils/constants/Board'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { useSelector, useDispatch } from 'react-redux'
+import { AppState } from '../../types/state/AppState'
+import { GameState } from '../../types/state/GameState'
+import * as Actions from '../../state/actions/GameState'
+import BoardSquare from './BoardSquare'
+import { ShortMove } from 'chess.js'
+import { Promotion } from '../../types/chess/Piece'
 
 const Board: React.FC<{children: ReactNode}> = ({ children }) => {
   const dispatch = useDispatch()
 
   const { board, promotion, moves, turn, gameStatus } = useSelector(( state: AppState ) => state.gameState )
-  const { playerWhite, useAI, engineDepth } = useSelector(( state: AppState ) => state.settings )
+  const { playerWhite, useAI } = useSelector(( state: AppState ) => state.settings )
   const [ charBoard, setCharBoard ] = useState<string[]>([])
 
   const _updatePromotion = useCallback(( promotion: Promotion | null ) => dispatch( Actions.setPromotion( promotion )), [ dispatch ])
@@ -30,7 +30,7 @@ const Board: React.FC<{children: ReactNode}> = ({ children }) => {
     if ( !promotion ) move( from, to )
   }
 
-  const move = ( from: string, to: string, promoteTo: undefined | "b" | "n" | "r" | "q" = undefined ) => {
+  const move = ( from: string, to: string, promoteTo: undefined | 'b' | 'n' | 'r' | 'q' = undefined ) => {
     const move = { from, to } as ShortMove
 
     if ( promoteTo ) move.promotion = promoteTo
@@ -52,7 +52,7 @@ const Board: React.FC<{children: ReactNode}> = ({ children }) => {
 
   useEffect(() => {
     const getMove = async () => {
-      if ( useAI && !gameStatus && ( playerWhite && turn === "b" || !playerWhite && turn === "w" )) {
+      if ( useAI && !gameStatus && ( playerWhite && turn === 'b' || !playerWhite && turn === 'w' )) {
         const randIdx = Math.floor( Math.random() * chess.moves().length )
         const engineMove = chess.moves({ verbose: true })[randIdx]
         move( engineMove.from, engineMove.to, engineMove.promotion )
@@ -75,13 +75,13 @@ const Board: React.FC<{children: ReactNode}> = ({ children }) => {
       for ( let file = 0; file < RANK_FILE_MAX; file++ ) {
         const square = board[rank][file]
         if ( square ) {
-          if ( square.color === "w" ) {
+          if ( square.color === 'w' ) {
             cBoard.push( square.type.toUpperCase())
           } else {
             cBoard.push( square.type )
           }
         } else {
-          cBoard.push( " " )
+          cBoard.push( ' ' )
         }
       }
     }
@@ -95,15 +95,11 @@ const Board: React.FC<{children: ReactNode}> = ({ children }) => {
     return (
       <div className="w-[600px] h-[600px] grid grid-cols-8 grid-rows-8 border-black border-2">
         {charBoard.map(( piece, index ) => {
-          let shiftedIndex: number
-          if ( !playerWhite )
-            shiftedIndex = charBoard.length - 1 - index
-          else
-            shiftedIndex = index
+          const shiftedIndex = !playerWhite ? charBoard.length - 1 - index : index
           const rank = Math.floor( shiftedIndex / 8 )
           const file = shiftedIndex % 8
-          const bgColor = ( rank + file ) % 2 === 0 ? "bg-brown-light" : "bg-brown"
-          const p = piece === " " ? null : { type: piece, position: shiftedIndex }
+          const bgColor = ( rank + file ) % 2 === 0 ? 'bg-brown-light' : 'bg-brown'
+          const p = piece === ' ' ? null : { type: piece, position: shiftedIndex }
 
           return (
             <BoardSquare key={shiftedIndex} color={bgColor} piece={p} position={shiftedIndex} movers={{ handleMove, move }} />

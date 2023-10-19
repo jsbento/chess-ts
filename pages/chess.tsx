@@ -1,10 +1,10 @@
-import type { NextPage } from "next"
-import Board from "../components/board/Board"
-import { useSelector } from "react-redux"
-import { AppState } from "../types/state/AppState"
-import ResultCard from "../components/cards/ResultCard"
-import MovesList from "../components/MovesList"
-import SettingsCard from "../components/cards/SettingsCard"
+import type { NextPage } from 'next'
+import Board from '../components/board/Board'
+import { useSelector } from 'react-redux'
+import { AppState } from '../types/state/AppState'
+import ResultCard from '../components/cards/ResultCard'
+import MovesList from '../components/MovesList'
+import SettingsCard from '../components/cards/SettingsCard'
 
 const Chess: NextPage = () => {
   const result = useSelector(( state: AppState ) => state.gameState.result )

@@ -1,5 +1,5 @@
-import type { NextPage } from "next"
-import FileUploader from "../components/FileUploader"
+import type { NextPage } from 'next'
+import FileUploader from '../components/FileUploader'
 
 const Test: NextPage = () => {
   return (

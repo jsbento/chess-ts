@@ -1,4 +1,4 @@
-import { NextPage } from "next"
+import { NextPage } from 'next'
 
 const About: NextPage = () => {
   return (
@@ -36,13 +36,7 @@ const About: NextPage = () => {
         </div>
         <div className="mt-5">
           <h2 className="text-center font-semibold text-xl">The Engine</h2>
-          <p>
-            I decided to go with a simple negamax engine based on PeSTO (Piece-Square Table Only) evaluation.
-            Each piece is tied to set of a values for squares on the board; these values are essentially measures
-            of how good it is for that piece to stand there. The sum of that value across all pieces for a side
-            gives a square for that side. The difference of these scores is the position&apos;s evaluation score - this
-            is what negamax algorithm uses to find the &quot;best&quot; moves.
-          </p>
+          <p>IN PROGRESS</p>
         </div>
         <div className="mt-5">
           <h2 className="text-center font-semibold text-xl">Chess.js</h2>
