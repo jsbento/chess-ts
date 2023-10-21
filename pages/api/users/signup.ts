@@ -15,7 +15,6 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
     body: JSON.stringify({ username, email, password }),
   })
   .then( r => r.json())
+  .then( data => res.status( 200 ).json( data ))
   .catch( e => res.status( 500 ).json({ error: e }))
-
-  res.status( 200 ).json( resp )
 }

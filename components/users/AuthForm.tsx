@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useRouter } from 'next/router'
 import * as Yup from 'yup'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useDispatch } from 'react-redux'
@@ -16,12 +17,20 @@ const SignUpSchema = Yup.object().shape({
   passwordConfirm: Yup.string().trim().oneOf([ Yup.ref( 'password' ) ], 'Passwords must match' ).required( 'Password confirmation is required' ),
 })
 
-const signInValues = {
+const signInValues: {
+  identifier: string
+  password: string
+} = {
   identifier: '',
   password: '',
 }
 
-const signUpValues = {
+const signUpValues: {
+  username: string
+  email: string
+  password: string
+  passwordConfirm: string
+} = {
   username: '',
   email: '',
   password: '',
@@ -30,12 +39,13 @@ const signUpValues = {
 
 const AuthForm: React.FC = () => {
   const dispatch = useDispatch()
+  const router = useRouter()
 
   const [ isSignIn, setIsSignIn ] = useState<boolean>( true )
   const [ error, setError ] = useState<string | null>( null )
 
   return (
-    <div className='border w-1/2 rounded-lg shadow'>
+    <div className='border w-1/3 rounded-lg shadow mx-auto'>
       <Formik
         initialValues={isSignIn ? signInValues : signUpValues}
         validationSchema={isSignIn ? SignInSchema : SignUpSchema}
@@ -51,7 +61,7 @@ const AuthForm: React.FC = () => {
           } else {
             setError( null )
             window.localStorage.setItem( 'token', resp.user?.token || '' )
-            window.location.href = '/'
+            router.push( '/' )
           }
         } }
       >
@@ -128,7 +138,7 @@ const AuthForm: React.FC = () => {
                 { isSignIn ? 'Don\'t have an account?' : 'Already have an account?' }
                 <button
                   type='button'
-                  className='text-blue-500 font-semibold'
+                  className='text-blue-500 font-semibold ml-3'
                   onClick={() => setIsSignIn( !isSignIn )}
                 >
                   { isSignIn ? 'Sign Up' : 'Sign In' }

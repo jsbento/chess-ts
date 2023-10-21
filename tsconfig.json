@@ -14,10 +14,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "baseUrl": ".",
     "paths": {
-      "@components/*": ["./components/*"],
-      "@coordinators/*": ["./behavior/coordinators/*"],
-      "@types/*": ["./types/*"],
+      "@components/*": ["components/*"],
+      "@coordinators/*": ["behavior/coordinators/*"],
+      "@types/*": ["types/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
