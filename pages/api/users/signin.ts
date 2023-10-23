@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { post } from '@coordinators/utils/rest'
 
 export default async function handler( req: NextApiRequest, res: NextApiResponse ) {
   const {
@@ -6,15 +7,18 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
     password,
   } = req.body
 
-  const resp = await fetch( `${process.env.API_URL}/users/signin`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ identifier, password }),
+  await post( `${process.env.API_HOST}/users/signin`, {
+    identifier,
+    password,
   })
   .then( r => r.json())
-  .catch( e => res.status( 500 ).json({ error: e }))
+  .then( data => {
+    if( data.message ) {
+      res.status( 500 ).json({ error: data.message })
+      return
+    }
 
-  res.status( 200 ).json( resp )
+    res.status( 200 ).json( data )
+  })
+  .catch( e => res.status( 500 ).json({ error: e.message }))
 }

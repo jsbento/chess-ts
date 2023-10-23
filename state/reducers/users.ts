@@ -1,5 +1,5 @@
 import { Action } from '../../types/state/AppState'
-import { UserState } from '../../types/state/users'
+import { UserState, UserActions } from '../../types/state/users'
 
 export const initialUserState: UserState = {
   user: null,
@@ -8,10 +8,15 @@ export const initialUserState: UserState = {
 
 const userReducer = ( state = initialUserState, action: Action ) => {
   switch( action.type ) {
-    case 'SET_USER':
+    case UserActions.SET_USER:
       return {
         ...state,
         ...action.payload,
+      }
+    case UserActions.CLEAR_USER:
+      return {
+        ...state,
+        ...initialUserState,
       }
     default:
       return state

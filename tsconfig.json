@@ -19,6 +19,7 @@
       "@components/*": ["components/*"],
       "@coordinators/*": ["behavior/coordinators/*"],
       "@types/*": ["types/*"],
+      "@state/*": ["state/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

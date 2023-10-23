@@ -1,4 +1,4 @@
-export const post = async ( url: string, data: any ) => {
+export const post = async ( url: string, data: any ): Promise<any> => {
   return await fetch( url, {
     method: 'POST',
     headers: {
@@ -8,7 +8,7 @@ export const post = async ( url: string, data: any ) => {
   })
 }
 
-export const get = async ( url: string, params: any = undefined ) => {
+export const get = async ( url: string, params: any = undefined ): Promise<any> => {
   if( params ) {
     url = `${ url }?${ new URLSearchParams( params ) }`
   }
@@ -21,7 +21,7 @@ export const get = async ( url: string, params: any = undefined ) => {
   })
 }
 
-export const put = async ( url: string, data: any ) => {
+export const put = async ( url: string, data: any ): Promise<any> => {
   return await fetch( url, {
     method: 'PUT',
     headers: {
@@ -31,7 +31,7 @@ export const put = async ( url: string, data: any ) => {
   })
 }
 
-export const del = async ( url: string ) => {
+export const del = async ( url: string ): Promise<any> => {
   return await fetch( url, {
     method: 'DELETE',
   })

@@ -10,7 +10,7 @@ const Chess: NextPage = () => {
   const result = useSelector(( state: AppState ) => state.gameState.result )
 
   return (
-    <div className="bg-white flex items-center justify-center">
+    <div className="bg-white flex items-center justify-center w-full">
       <SettingsCard />
       <Board>
         {result && <ResultCard result={result} />}

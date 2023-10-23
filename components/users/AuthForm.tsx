@@ -52,15 +52,13 @@ const AuthForm: React.FC = () => {
         validateOnChange={false}
         validateOnBlur={false}
         onSubmit={ async ( values, { setSubmitting }) => {
+          setError( null )
           const authFunc = isSignIn ? signIn( values as typeof signInValues ) : signUp( values as typeof signUpValues )
           const resp = await authFunc( dispatch )
-
-          setSubmitting( false )
           if( resp.error ) {
             setError( resp.error )
+            setSubmitting( false )
           } else {
-            setError( null )
-            window.localStorage.setItem( 'token', resp.user?.token || '' )
             router.push( '/' )
           }
         } }
@@ -72,15 +70,15 @@ const AuthForm: React.FC = () => {
             </h2>
             <Form className='flex flex-col w-1/2 mx-auto'>
               <div className='flex flex-col'>
-                <label htmlFor={ isSignIn ? 'indentifier' : 'username' }>{ isSignIn ? 'Username/Email' : 'Username'}</label>
+                <label htmlFor={ isSignIn ? 'identifier' : 'username' }>{ isSignIn ? 'Username/Email' : 'Username'}</label>
                 <Field
                   type='text'
-                  id={ isSignIn ? 'indentifier' : 'username' }
-                  name={ isSignIn ? 'indentifier' : 'username' }
+                  id={ isSignIn ? 'identifier' : 'username' }
+                  name={ isSignIn ? 'identifier' : 'username' }
                   className='border rounded-md'
                 />
                 <ErrorMessage
-                  name={ isSignIn ? 'indentifier' : 'username' }
+                  name={ isSignIn ? 'identifier' : 'username' }
                   render={ msg => <FormError message={msg} /> }
                 />
               </div>
