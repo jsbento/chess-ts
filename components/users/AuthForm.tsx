@@ -60,7 +60,7 @@ const AuthForm: React.FC = () => {
             setError( resp.error )
             setSubmitting( false )
           } else {
-            Cookies.set('token', resp.user!.token! )
+            Cookies.set( 'token', resp.user!.token! )
             router.push( '/' )
           }
         } }

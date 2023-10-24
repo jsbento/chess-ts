@@ -6,7 +6,7 @@ import { loadGames } from '@coordinators/games/games'
 import { Game } from '../../types/games/game'
 
 const Profile: NextPage = () => {
-  const user = useSelector(( state: AppState ) => state.user.user)
+  const user = useSelector(( state: AppState ) => state.user.user )
 
   const [ games, setGames ] = useState<Game[]>([])
 
@@ -62,7 +62,7 @@ const Profile: NextPage = () => {
                   {game.date}
                 </td>
                 <td>
-                  {game.history.slice(0, 5).join(', ')}...
+                  {game.history.slice( 0, 5 ).join( ', ' )}...
                 </td>
               </tr>
             )) }
