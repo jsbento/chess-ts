@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import * as Yup from 'yup'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useDispatch } from 'react-redux'
+import Cookies from 'js-cookie'
 import { signIn, signUp } from '@coordinators/users'
 
 const SignInSchema = Yup.object().shape({
@@ -59,6 +60,7 @@ const AuthForm: React.FC = () => {
             setError( resp.error )
             setSubmitting( false )
           } else {
+            Cookies.set('token', resp.user!.token! )
             router.push( '/' )
           }
         } }

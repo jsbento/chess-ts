@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
+import Router from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
+import Cookies from 'js-cookie'
 import Logo from './Logo'
 import { AppState } from '../../types/state'
 import { clearUser } from '../../state/actions/users'
@@ -11,6 +13,8 @@ const NavBar: React.FC = () => {
 
   const onLogout = () => {
     dispatch( clearUser())
+    Cookies.remove( 'token' )
+    Router.push( '/' )
   }
 
   return (
@@ -28,7 +32,7 @@ const NavBar: React.FC = () => {
         { user ? (
           <>
             <li className="hover:scale-105 font-bold text-lg">
-              <Link href="/profile">Profile</Link>
+              <Link href="/users/profile">Profile</Link>
             </li>
             <li className="hover:scale-105 font-bold text-lg">
               <button

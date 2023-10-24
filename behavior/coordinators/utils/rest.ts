@@ -8,7 +8,7 @@ export const post = async ( url: string, data: any ): Promise<any> => {
   })
 }
 
-export const get = async ( url: string, params: any = undefined ): Promise<any> => {
+export const get = async ( url: string, params: any = undefined, headers: { [key: string]: string } | undefined = undefined ): Promise<any> => {
   if( params ) {
     url = `${ url }?${ new URLSearchParams( params ) }`
   }
@@ -17,6 +17,7 @@ export const get = async ( url: string, params: any = undefined ): Promise<any> 
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      ...headers,
     },
   })
 }
@@ -34,5 +35,8 @@ export const put = async ( url: string, data: any ): Promise<any> => {
 export const del = async ( url: string ): Promise<any> => {
   return await fetch( url, {
     method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   })
 }

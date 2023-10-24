@@ -7,13 +7,13 @@ import Layout from '../components/layout/Layout'
 
 function MyApp({ Component, pageProps }: AppProps ) {
   return (
-  <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </PersistGate>
-  </Provider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </PersistGate>
+    </Provider>
   )
 }
 
