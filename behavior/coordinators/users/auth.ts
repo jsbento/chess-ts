@@ -9,11 +9,10 @@ export const signIn = ( data: { identifier: string, password: string }) => async
     error?: string,
   } = await post( '/api/users/signin', data )
   .then( r => r.json())
-  .then( data => {
+  .then( user => {
     const {
-      user,
       error,
-    } = data || {}
+    } = user || {}
 
     if( error ) {
       return {
@@ -38,11 +37,10 @@ export const signUp = ( data: { username: string, email: string, password: strin
     error?: string,
   } = await post( '/api/users/signup', data )
   .then( r => r.json())
-  .then( data => {
+  .then( user => {
     const {
-      user,
       error,
-    } = data || {}
+    } = user || {}
 
     if( error ) {
       return {
