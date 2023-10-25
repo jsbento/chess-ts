@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Router from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
@@ -9,10 +9,24 @@ import { clearUser } from '../../state/actions/users'
 
 const NavBar: React.FC = () => {
   const dispatch = useDispatch()
-  const user = useSelector(( state: AppState ) => state.user.user )
+
+  const userState = useSelector(( state: AppState ) => state.user )
+
+  const signOut = useCallback(() => dispatch( clearUser()), [ dispatch ])
+
+  useEffect(() => {
+    const {
+      user,
+      token,
+    } = userState
+
+    if( user && token && !Cookies.get( 'token' )) {
+      Cookies.set( 'token', token )
+    }
+  }, [ userState ])
 
   const onLogout = () => {
-    dispatch( clearUser())
+    signOut()
     Cookies.remove( 'token' )
     Router.push( '/' )
   }
@@ -29,7 +43,7 @@ const NavBar: React.FC = () => {
         <li className="hover:scale-105 font-bold text-lg">
           <Link href="/about">About</Link>
         </li>
-        { user ? (
+        { userState.user ? (
           <>
             <li className="hover:scale-105 font-bold text-lg">
               <Link href="/users/profile">Profile</Link>

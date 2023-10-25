@@ -2,8 +2,8 @@ import type { NextPage } from 'next'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
-import { AppState } from '../../types/state'
 import { loadGames } from '@coordinators/games/games'
+import { AppState } from '../../types/state'
 import { Game } from '../../types/games/game'
 
 const Profile: NextPage = () => {
@@ -74,9 +74,7 @@ const Profile: NextPage = () => {
       <div className='flex flex-col'>
         <h2 className='font-bold text-xl p-3 mb-3'>
           { 'Looks like you haven\'t played any games yet!' }
-          <Link
-            href='/play'
-          >
+          <Link href='/chess'>
             <a className='text-blue-700 underline ml-3'>
               { 'Play a game now!' }
             </a>

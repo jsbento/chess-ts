@@ -18,20 +18,24 @@ const SignUpSchema = Yup.object().shape({
   passwordConfirm: Yup.string().trim().oneOf([ Yup.ref( 'password' ) ], 'Passwords must match' ).required( 'Password confirmation is required' ),
 })
 
-const signInValues: {
+interface SignInValues {
   identifier: string
   password: string
-} = {
+}
+
+const signInValues: SignInValues = {
   identifier: '',
   password: '',
 }
 
-const signUpValues: {
+interface SignUpValues {
   username: string
   email: string
   password: string
   passwordConfirm: string
-} = {
+}
+
+const signUpValues: SignUpValues = {
   username: '',
   email: '',
   password: '',
@@ -54,7 +58,7 @@ const AuthForm: React.FC = () => {
         validateOnBlur={false}
         onSubmit={ async ( values, { setSubmitting }) => {
           setError( null )
-          const authFunc = isSignIn ? signIn( values as typeof signInValues ) : signUp( values as typeof signUpValues )
+          const authFunc = isSignIn ? signIn( values as SignInValues ) : signUp( values as SignUpValues )
           const resp = await authFunc( dispatch )
           if( resp.error ) {
             setError( resp.error )

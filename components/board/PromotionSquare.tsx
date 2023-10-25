@@ -1,9 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
-import { PromotionProps } from '../../types/components/Board'
 import { PieceImageMap } from '../../utils/constants/PieceImages'
+import { Promotion } from '../../types/chess/Piece'
 
-const PromotionSquare: React.FC<PromotionProps> = ({ promotion, move }) => {
+interface PromotionSquareProps {
+  promotion: Promotion
+  move: ( from: string, to: string, promoteTo: undefined | 'b' | 'q' | 'r' | 'n' ) => void
+}
+
+const PromotionSquare: React.FC<PromotionSquareProps> = ({ promotion, move }) => {
   const promotionPieces: ( 'q' | 'b' | 'r' | 'n' )[] = [ 'q', 'r', 'b', 'n' ]
 
   return (

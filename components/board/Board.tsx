@@ -4,17 +4,27 @@ import { RANKS, FILES } from '../../utils/constants/Board'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useSelector, useDispatch } from 'react-redux'
-import { AppState } from '../../types/state/AppState'
-import { GameState } from '../../types/state/GameState'
 import * as Actions from '../../state/actions/GameState'
 import BoardSquare from './BoardSquare'
 import { ShortMove } from 'chess.js'
+import { AppState, GameState } from '../../types/state'
 import { Promotion } from '../../types/chess/Piece'
 
-const Board: React.FC<{children: ReactNode}> = ({ children }) => {
+interface BoardProps {
+  children: ReactNode
+}
+
+const Board: React.FC<BoardProps> = ({ children }) => {
   const dispatch = useDispatch()
 
-  const { board, promotion, moves, turn, gameStatus } = useSelector(( state: AppState ) => state.gameState )
+  const {
+    board,
+    promotion,
+    moves,
+    turn,
+    gameStatus,
+  } = useSelector(( state: AppState ) => state.gameState )
+
   const { playerWhite, useAI } = useSelector(( state: AppState ) => state.settings )
   const [ charBoard, setCharBoard ] = useState<string[]>([])
 

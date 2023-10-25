@@ -1,10 +1,13 @@
 import React, { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { ResultCardProps } from '../../types/components/ResultCard'
 import { GameState } from '../../types/state/GameState'
 import { initialState } from '../../state/reducers/GameState'
 import * as Actions from '../../state/actions/GameState'
 import { chess } from '../../utils/constants/Chess'
+
+interface ResultCardProps {
+  result: string
+}
 
 const ResultCard: React.FC<ResultCardProps> = ({ result }) => {
   const dispatch = useDispatch()
