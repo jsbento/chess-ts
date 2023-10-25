@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import Link from 'next/link'
 import { AppState } from '../../types/state'
 import { loadGames } from '@coordinators/games/games'
 import { Game } from '../../types/games/game'
@@ -39,7 +40,7 @@ const Profile: NextPage = () => {
   }
 
   const renderGames = () => {
-    return (
+    return games.length > 0 ? (
       <div className='flex flex-col'>
         <h2 className='font-bold text-xl p-3 mb-3'>
           Your game history
@@ -68,6 +69,19 @@ const Profile: NextPage = () => {
             )) }
           </tbody>
         </table>
+      </div>
+    ) : (
+      <div className='flex flex-col'>
+        <h2 className='font-bold text-xl p-3 mb-3'>
+          { 'Looks like you haven\'t played any games yet!' }
+          <Link
+            href='/play'
+          >
+            <a className='text-blue-700 underline ml-3'>
+              { 'Play a game now!' }
+            </a>
+          </Link>
+        </h2>
       </div>
     )
   }

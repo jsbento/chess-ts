@@ -26,10 +26,10 @@ const Home: NextPage = () => {
             }}
           >
             <h2>Play</h2>
-            <p>Play a game of chess against the AI, or locally!</p>
+            <p>Play a game of chess against the AI!</p>
           </div>
         </Link>
-        <Link href='/account'>
+        <Link href='/users/profile'>
           <div
             className={styles.card}
             style={{
