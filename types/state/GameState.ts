@@ -8,6 +8,7 @@ export type GameState = {
   promotion: Promotion | null;
   result: string | null;
   moves: string[];
+  fen: string;
 }
 
 export const GameActions = {
@@ -18,4 +19,5 @@ export const GameActions = {
   SET_RESULT: 'SET_RESULT',
   SET_STATE: 'SET_STATE',
   SET_MOVES: 'SET_MOVES',
+  SET_FEN: 'SET_FEN',
 }

@@ -7,3 +7,5 @@ export const setPlayerWhite = ( payload: boolean ) => ({ type: 'SET_PLAYER_WHITE
 export const setUseAI = ( payload: boolean ) => ({ type: 'SET_USE_AI', payload })
 
 export const setEngineDepth = ( payload: number ) => ({ type: 'SET_ENGINE_DEPTH', payload })
+
+export const setMoveTime = ( payload: number ) => ({ type: 'SET_MOVE_TIME', payload })

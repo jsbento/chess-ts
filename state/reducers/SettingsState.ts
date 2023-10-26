@@ -5,26 +5,24 @@ export const initialSettings: SettingsState = {
   playerWhite: true,
   useAI: false,
   engineDepth: 2,
+  moveTime: 0,
 }
 
 const settingsReducer = ( settings = initialSettings, action: Action ) => {
   switch ( action.type ) {
     case SettingsActions.SET_PLAYER_WHITE:
-      return setPlayerWhiteReducer( settings, action )
+      return { ...settings, playerWhite: action.payload }
     case SettingsActions.SET_SETTINGS:
-      return setSettingsReducer( settings, action )
+      return { ...action.payload }
     case SettingsActions.SET_USE_AI:
-      return setUseAIReducer( settings, action )
+      return { ...settings, useAI: action.payload }
     case SettingsActions.SET_ENGINE_DEPTH:
-      return setEngineDepthReducer( settings, action )
+      return { ...settings, engineDepth: action.payload }
+    case SettingsActions.SET_MOVE_TIME:
+      return { ...settings, moveTime: action.payload }
     default:
       return settings
   }
 }
-
-const setPlayerWhiteReducer = ( settings: SettingsState, action: Action ) => ({ ...settings, playerWhite: action.payload })
-const setSettingsReducer = ( settings: SettingsState, action: Action ) => ({ ...settings, ...action.payload })
-const setUseAIReducer = ( settings: SettingsState, action: Action ) => ({ ...settings, useAI: action.payload })
-const setEngineDepthReducer = ( settings: SettingsState, action: Action ) => ({ ...settings, engineDepth: action.payload })
 
 export default settingsReducer

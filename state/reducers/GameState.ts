@@ -9,35 +9,30 @@ export const initialState: GameState = {
   turn: 'w',
   promotion: null,
   moves: [],
+  fen: chess.fen(),
 }
 
 const chessReducer = ( state = initialState, action: Action ): GameState => {
   switch ( action.type ) {
     case GameActions.SET_BOARD:
-      return boardReducer( state, action )
+      return { ...state, board: action.payload }
     case GameActions.SET_GAME_STATUS:
-      return gameStatusReducer( state, action )
+      return { ...state, gameStatus: action.payload }
     case GameActions.SET_TURN:
-      return turnReducer( state, action )
+      return { ...state, turn: action.payload }
     case GameActions.SET_PROMOTION:
-      return promotionReducer( state, action )
+      return { ...state, promotion: action.payload }
     case GameActions.SET_RESULT:
-      return resultReducer( state, action )
+      return { ...state , result: action.payload }
     case GameActions.SET_STATE:
-      return stateReducer( state, action )
+      return { ...state, ...action.payload }
     case GameActions.SET_MOVES:
-      return movesReducer( state, action )
+      return { ...state, moves: [ ...state.moves, action.payload ]}
+    case GameActions.SET_FEN:
+      return { ...state, fen: action.payload }
     default:
       return state
   }
 }
-
-const boardReducer = ( state: GameState, action: Action ): GameState => ({ ...state, board: action.payload })
-const gameStatusReducer = ( state: GameState, action: Action ): GameState => ({ ...state, gameStatus: action.payload })
-const resultReducer = ( state: GameState, action: Action ): GameState => ({ ...state, result: action.payload })
-const turnReducer = ( state: GameState, action: Action ): GameState => ({ ...state, turn: action.payload })
-const promotionReducer = ( state: GameState, action: Action ): GameState => ({ ...state, promotion: action.payload })
-const stateReducer = ( state: GameState, action: Action ): GameState => ({ ...state, ...action.payload })
-const movesReducer = ( state: GameState, action: Action ): GameState => ({ ...state, moves: [ ...state.moves, action.payload ]})
 
 export default chessReducer
