@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef } from 'react'
 
 
 const FileUploader = () => {
@@ -15,9 +15,9 @@ const FileUploader = () => {
   const handleDrag = ( e: React.DragEvent<HTMLFormElement> | React.DragEvent<HTMLDivElement> ) => {
     e.preventDefault()
     e.stopPropagation()
-    if( e.type === "dragenter" || e.type === "dragover" ) {
+    if( e.type === 'dragenter' || e.type === 'dragover' ) {
       setDragging( true )
-    } else if( e.type === "dragleave" ) {
+    } else if( e.type === 'dragleave' ) {
       setDragging( false )
     }
   }
@@ -49,7 +49,7 @@ const FileUploader = () => {
   return (
     <form id="file-upload-form" ref={ fileInput } onDragEnter={ handleDrag } onSubmit={ handleSubmit }>
       <input type="file" id="file-upload" onChange={ onChangeFile }/>
-      <label id="file-upload-label" htmlFor="file-upload" className={ dragging ? "drag-active" : "" }>
+      <label id="file-upload-label" htmlFor="file-upload" className={ dragging ? 'drag-active' : '' }>
         <div>
           <p>Drag and drop a file here or</p>
           <button className="upload-button" onClick={ onClick }>Upload a file</button>

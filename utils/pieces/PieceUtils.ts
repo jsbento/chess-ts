@@ -1,4 +1,4 @@
-import { RANK_FILE_MAX } from "../constants/Chess"
+import { RANK_FILE_MAX } from '../constants/Chess'
 
 export const indexToSquare = ( index: number ): string => {
   const file = index % 8
