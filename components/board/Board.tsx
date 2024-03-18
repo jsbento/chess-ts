@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useEffect, useCallback } from 'react'
+import React, { ReactNode, useState, useEffect, useCallback, useMemo } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useSelector, useDispatch } from 'react-redux'
@@ -19,23 +19,42 @@ const Board: React.FC<BoardProps> = ({ children }) => {
   const dispatch = useDispatch()
 
   const {
-    board,
-    promotion,
-    moves,
-    turn,
-    gameStatus,
-    fen,
-  } = useSelector(( state: AppState ) => state.gameState )
+    gameState: {
+      board,
+      promotion,
+      moves,
+      turn,
+      gameStatus,
+      fen,
+    },
+    settingsState: {
+      useAI,
+      playerWhite,
+      engineDepth,
+      moveTime,
+    },
+  } = useSelector(( state: AppState ) =>  ({ gameState: state.gameState, settingsState: state.settings }))
 
-  const {
-    playerWhite,
-    useAI,
-    engineDepth,
-    moveTime,
-  } = useSelector(( state: AppState ) => state.settings )
-
-  const [ charBoard, setCharBoard ] = useState<string[]>([])
   const [ positionScore, setPositionScore ] = useState<number>( 0 )
+
+  const charBoard = useMemo(() => {
+    const cBoard: string[] = []
+    for ( let rank = 0; rank < RANK_FILE_MAX; rank++ ) {
+      for ( let file = 0; file < RANK_FILE_MAX; file++ ) {
+        const square = board[rank][file]
+        if ( square ) {
+          if ( square.color === 'w' ) {
+            cBoard.push( square.type.toUpperCase())
+          } else {
+            cBoard.push( square.type )
+          }
+        } else {
+          cBoard.push( ' ' )
+        }
+      }
+    }
+    return !playerWhite ? cBoard.reverse() : cBoard
+  }, [ board, playerWhite ])
 
   const _updatePromotion = useCallback(( promotion: Promotion | null ) => dispatch( Actions.setPromotion( promotion )), [ dispatch ])
   const _setState = useCallback(( newState: GameState ) => dispatch( Actions.setState( newState )), [ dispatch ])
@@ -80,29 +99,6 @@ const Board: React.FC<BoardProps> = ({ children }) => {
     }
     getMove()
   }, [ turn, playerWhite ])
-
-  useEffect(() => {
-    const cBoard: string[] = []
-    for ( let rank = 0; rank < RANK_FILE_MAX; rank++ ) {
-      for ( let file = 0; file < RANK_FILE_MAX; file++ ) {
-        const square = board[rank][file]
-        if ( square ) {
-          if ( square.color === 'w' ) {
-            cBoard.push( square.type.toUpperCase())
-          } else {
-            cBoard.push( square.type )
-          }
-        } else {
-          cBoard.push( ' ' )
-        }
-      }
-    }
-    if ( !playerWhite ) {
-      setCharBoard( cBoard.reverse())
-    } else {
-      setCharBoard( cBoard )
-    }
-  }, [ board, playerWhite ])
 
   const handleMove = ( from: string, to: string ) => {
     const promotions = chess.moves({ verbose: true }).filter( move => move.promotion )

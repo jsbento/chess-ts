@@ -1,14 +1,15 @@
-export const post = async ( url: string, data: any ): Promise<any> => {
+export const post = async ( url: string, data: any, headers: { [key: string]: string } = {}): Promise<any> => {
   return await fetch( url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      ...headers,
     },
     body: JSON.stringify( data ),
   })
 }
 
-export const get = async ( url: string, params: any = undefined, headers: { [key: string]: string } | undefined = undefined ): Promise<any> => {
+export const get = async ( url: string, params: any = undefined, headers: { [key: string]: string } = {}): Promise<any> => {
   if( params ) {
     url = `${ url }?${ new URLSearchParams( params ) }`
   }

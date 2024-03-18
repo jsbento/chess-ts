@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react'
 
-
 const FileUploader = () => {
   const fileInput = useRef<HTMLFormElement | null>( null )
   const [ dragging, setDragging ] = useState( false )

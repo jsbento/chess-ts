@@ -1,4 +1,4 @@
-import { get } from '../utils/rest'
+import { get, post } from '../utils/rest'
 import { Game } from '../../../types/games/game'
 
 export const loadGames = async ( params: {
@@ -21,6 +21,23 @@ export const loadGames = async ( params: {
 
     if( error ) {
       return []
+    } else {
+      return data
+    }
+  })
+  .catch( e => ({ error: e.message }))
+}
+
+export const saveGame = async ( game: Game ): Promise<Game> => {
+  return await post( '/api/games/create', game )
+  .then( r => r.json())
+  .then( data => {
+    const {
+      error,
+    } = data || {}
+
+    if( error ) {
+      return {}
     } else {
       return data
     }

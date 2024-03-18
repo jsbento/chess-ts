@@ -1,7 +1,7 @@
 export type Game = {
-  id: string
+  id?: string
   playerId: string
   result: string
   history: string[]
-  date: string
+  date?: string
 }

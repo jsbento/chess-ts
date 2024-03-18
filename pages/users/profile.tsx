@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
+import Moment from 'moment-timezone'
 import { loadGames } from '@coordinators/games/games'
 import { AppState } from '../../types/state'
 import { Game } from '../../types/games/game'
@@ -60,7 +61,7 @@ const Profile: NextPage = () => {
                   {game.result}
                 </td>
                 <td>
-                  {game.date}
+                  {Moment( game.date ).format( 'MM/DD/YYYY h:mm a' )}
                 </td>
                 <td>
                   {game.history.slice( 0, 5 ).join( ', ' )}...
@@ -75,9 +76,7 @@ const Profile: NextPage = () => {
         <h2 className='font-bold text-xl p-3 mb-3'>
           { 'Looks like you haven\'t played any games yet!' }
           <Link href='/chess'>
-            <a className='text-blue-700 underline ml-3'>
-              { 'Play a game now!' }
-            </a>
+            Play a game now!
           </Link>
         </h2>
       </div>
