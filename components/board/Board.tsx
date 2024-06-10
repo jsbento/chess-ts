@@ -92,12 +92,13 @@ const Board: React.FC<BoardProps> = ({ children }) => {
           gameStatus: chess.game_over(),
           result: chess.game_over() ? getResult() : null,
           promotion: null,
-          moves: [ ...moves, engineMove.san ],
+          moves: [ ...moves, chess.history({ verbose: true }).at(-1)!.san ],
           fen: chess.fen(),
         })
       }
     }
     getMove()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ turn, playerWhite ])
 
   const handleMove = ( from: string, to: string ) => {
@@ -172,9 +173,22 @@ const Board: React.FC<BoardProps> = ({ children }) => {
     return FILES.map(( file, index ) => <p key={index} className="w-[12.5%] center-text">{file}</p> )
   }
 
+  const formatPosScore = ( score: number ) => {
+    switch( turn ) {
+      case 'w':
+        return playerWhite ? score : -score
+      case 'b':
+        return playerWhite ? -score : score
+      default:
+        return score
+    }
+  }
+
+  const score = useMemo(() => formatPosScore( positionScore ) / 100.0, [ positionScore, turn, playerWhite ])
+
   return (
     <div className="chess-board p-10 items-start justify-items-start">
-      <p>Position Score: { positionScore }</p>
+      <p>Position Score: { score }</p>
       <div className="box-1 w-[50px] h-[600px] flex flex-col items-center mt-2 mr-3">
         {renderRanks()}
       </div>
